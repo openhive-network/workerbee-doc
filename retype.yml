@@ -1,0 +1,47 @@
+input: src
+output: .retype
+url: http://localhost:5005
+serve:
+  port: 5005
+favicon: /static/favicon.ico
+meta:
+  title: " | WorkerBee 📚"
+snippets:
+  lineNumbers:
+    - typescript
+branding:
+  title: WorkerBee 📚
+  logo: /static/hive.svg
+  label: v1.0
+  colors:
+    label:
+      text: "#e31337"
+      background: "#fce7eb"
+cache:
+  token: v1.0
+editor:
+  enabled: false
+links:
+  - text: Hive Website
+    link: https://hive.io
+    icon: heart
+    target: blank
+  - text: Hive Blog
+    link: https://hive.blog
+    icon: comment-discussion
+    target: blank
+  - text: WorkerBee GitLab
+    link: https://gitlab.syncad.com/hive/workerbee
+    icon: git-branch
+    target: blank
+  - text: NPM package
+    link: https://www.npmjs.com/package/@hiveio/workerbee
+    icon: package
+    target: blank
+footer:
+  copyright: "&copy; Copyright {{ year }}. All rights reserved."
+  links:
+    - text: License
+      link: https://gitlab.syncad.com/hive/workerbee-doc/-/blob/main/LICENSE.md
+exclude:
+  - /static/snippets
