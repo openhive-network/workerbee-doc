@@ -10,9 +10,9 @@ snippets:
   lineNumbers:
     - typescript
 branding:
-  title: WorkerBee 📚
+  title: WorkerBee Docs
   logo: /static/hive.svg
-  label: v1.0
+  label: 1.27.6-rc13
   colors:
     label:
       text: "#e31337"

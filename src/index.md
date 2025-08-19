@@ -3,6 +3,8 @@ order: -1
 icon: home
 ---
 
+![](../static/ai-bee.png){.rounded-lg width="300"}
+
 # Intro to WorkerBee library
 
 **A powerful and flexible Hive automation library.**
