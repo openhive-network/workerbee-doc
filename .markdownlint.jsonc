@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/v0.38.0/schema/markdownlint-config-schema.json",
+
+  // Default state for all rules
+  "default": true,
+
+  // Path to configuration file to extend
+  "extends": null,
+
+  // MD041/first-line-heading/first-line-h1: Retype allows images before the first heading as banners
+  "MD041": false,
+
+  // MD013/line-length: When writing documentation and creating custom badges etc., we sometimes need to exceed the default line length
+  "MD013": false
+}

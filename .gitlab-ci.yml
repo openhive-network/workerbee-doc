@@ -1,6 +1,7 @@
 image: node:18
 
 stages:
+  - .pre
   - build
   - deploy
 
@@ -21,17 +22,26 @@ default:
   tags:
     - public-runner-docker
 
-build:
-  stage: build
+.pnpm_based_job:
   before_script:
     - corepack enable
     - corepack prepare pnpm@9.1.1 --activate
     - pnpm config set store-dir .pnpm-store
     - pnpm install
+
+lint:
+  extends: .pnpm_based_job
+  stage: .pre
+  script:
+    - pnpm run lint
+
+build:
+  stage: build
+  extends: .pnpm_based_job
   script:
     # Replace the base URL in retype.yml with the GitLab Pages URL
     - sed -i "s#http://localhost:5005#$CI_PAGES_URL#g" retype.yml
-    - npm run build
+    - pnpm run build
   artifacts:
     paths:
       - ".retype"

@@ -3,7 +3,7 @@ order: -1
 icon: home
 ---
 
-![](../static/ai-bee.png){.rounded-lg width="300"}
+![Bee with blocks](./static/ai-bee.png){.rounded-lg width="300"}
 
 # Intro to WorkerBee library
 
@@ -27,5 +27,5 @@ This document contains executable examples that readers can directly interact wi
 !!!
 
 Below are links to the TypeScript and Python docs. Currently the TypeScript interface is more feature complete, but the Python interface will catch up soon.
-[!ref icon="./static/typescript.svg" text="TypeScript Reference"](/typescript/config/base-configuration/)
-[!ref icon="./static/python.svg" text="Python Reference"](/python/config/base-configuration/)
+[!ref icon="./static/typescript.svg" text="TypeScript Reference"](./typescript/config/base-configuration/)
+[!ref icon="./static/python.svg" text="Python Reference"](./python/config/base-configuration/)

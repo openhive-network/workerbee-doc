@@ -1,6 +1,6 @@
 ---
 order: -2
-icon: /static/typescript.svg
+icon: ../static/typescript.svg
 expanded: false
 label: TypeScript Interface
 ---
