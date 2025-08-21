@@ -173,20 +173,3 @@ const observer = (wb) => wb.observe.onPosts("alice").subscribe({ /* ... */ });
 observer(liveWorkerBee);
 observer(historicalWorkerBee);
 ```
-
-## :clipboard: What's Next?
-
-Now that you understand the basics, explore these topics:
-
-- [!ref icon="book" text="Core Architecture"](/typescript/core-architecture/)
-- [!ref icon="filter" text="Filters & Conditions"](/typescript/filters/)
-- [!ref icon="database" text="Data Providers"](/typescript/providers/)
-- [!ref icon="gear" text="Configuration"](/typescript/config/base-configuration/)
-- [!ref icon="beaker" text="Advanced Examples"](/typescript/examples/)
-
-## :question: Need Help?
-
-- Check out the [API Reference](/typescript/api-reference/)
-- Browse [Common Patterns](/typescript/patterns/)
-- See [Troubleshooting Guide](/typescript/troubleshooting/)
-- Visit the [WorkerBee GitLab](https://gitlab.syncad.com/hive/workerbee) for issues and discussions

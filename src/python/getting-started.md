@@ -1,8 +1,8 @@
 ---
 order: -1
-icon: info
+icon: rocket
 ---
 
-# Base configuration
+# Getting Started
 
 Soon :smile:

@@ -13,7 +13,7 @@ Welcome to the complete TypeScript documentation for WorkerBee! This section pro
 
 New to WorkerBee? Start here!
 
-[!ref icon="rocket" text="Getting Started Guide"](/typescript/getting-started/)
+[!ref icon="rocket" text="Getting Started Guide"](./getting-started/)
 
 Learn the basics of WorkerBee, installation, and your first blockchain observer.
 
@@ -21,29 +21,29 @@ Learn the basics of WorkerBee, installation, and your first blockchain observer.
 
 ### Beginner
 
-1. [Getting Started](/typescript/getting-started/) - Basic concepts and first examples
-2. [Base Configuration](/typescript/config/base-configuration/) - Setting up for your environment
-3. [Filters & Conditions](/typescript/filters/) - Monitoring blockchain events
+1. [Getting Started](./getting-started/) - Basic concepts and first examples
+2. [Base Configuration](./base-configuration/) - Setting up for your environment
+3. [Filters & Conditions](./filters/) - Monitoring blockchain events
 
 ### Intermediate
 
-1. [Data Providers](/typescript/providers/) - Working with blockchain data
-2. [Common Patterns](/typescript/patterns/) - Best practices and reusable solutions
-3. [Troubleshooting](/typescript/troubleshooting/) - Debugging and common issues
+1. [Data Providers](./providers/) - Working with blockchain data
+2. [Common Patterns](./patterns/) - Best practices and reusable solutions
+3. [Troubleshooting](./troubleshooting/) - Debugging and common issues
 
 ### Advanced
 
-1. [Core Architecture](/typescript/core-architecture/) - Understanding the internals
-2. [Advanced Examples](/typescript/examples/) - Real-world applications
-3. [API Reference](/typescript/api-reference/) - Complete technical reference
+1. [Core Architecture](./core-architecture/) - Understanding the internals
+2. [Advanced Examples](./examples/) - Real-world applications
+3. [API Reference](./api-reference/) - Complete technical reference
 
 ## :sparkles: Essential Concepts
 
-- **:eyes: Observer Pattern**: Reactive programming for blockchain events
-- **:chains: Fluent API**: Chain methods to build complex observations
-- **:gear: Smart Caching**: Automatic optimization of API calls
-- **:zap: Concurrent Processing**: Filters and providers run in parallel
-- **:shield: Error Handling**: Built-in retry logic and failover mechanisms
+- **Observer Pattern**: Reactive programming for blockchain events
+- **Fluent API**: Chain methods to build complex observations
+- **Smart Caching**: Automatic optimization of API calls
+- **Concurrent Processing**: Filters and providers run in parallel
+- **Error Handling**: Built-in retry logic and failover mechanisms
 
 ## :question: Need Help?
 

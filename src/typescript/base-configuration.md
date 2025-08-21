@@ -4,7 +4,7 @@ icon: gear
 label: Configuration
 ---
 
-# :gear: Base Configuration
+# Base Configuration
 
 Configure WorkerBee for different environments and use cases. The configuration system allows you to customize behavior, performance, and data sources.
 
