@@ -33,9 +33,10 @@ Learn the basics of WorkerBee, installation, and your first blockchain observer.
 
 ### Advanced
 
-1. [Core Architecture](./core-architecture/) - Understanding the internals
-2. [Advanced Examples](./examples/) - Real-world applications
-3. [API Reference](./api-reference/) - Complete technical reference
+1. [Past Data](./past-data/) - Leveraging historical blockchain data
+2. [Core Architecture](./core-architecture/) - Understanding the internals
+3. [Advanced Examples](./examples/) - Real-world applications
+4. [API Reference](./api-reference/) - Complete technical reference
 
 ## :sparkles: Essential Concepts
 
@@ -44,6 +45,9 @@ Learn the basics of WorkerBee, installation, and your first blockchain observer.
 - **Smart Caching**: Automatic optimization of API calls
 - **Concurrent Processing**: Filters and providers run in parallel
 - **Error Handling**: Built-in retry logic and failover mechanisms
+- **Fully typed**: Library APIs have well defined types and functional interfaces with special support for IDE IntelliSense:
+
+![](../static/wb-fully-typed.gif){.rounded-lg}
 
 ## :question: Need Help?
 

@@ -1,5 +1,5 @@
 ---
-order: -8
+order: -9
 icon: beaker
 ---
 
@@ -7,7 +7,9 @@ icon: beaker
 
 Explore sophisticated use cases and patterns with WorkerBee. These examples demonstrate real-world applications and advanced techniques.
 
-## :robot: Intelligent Voting Bot
+TODO: Enhance examples and make them simpler, integrate with the mentioned platforms
+
+## :robot_face: Node.js Intelligent Voting Bot
 
 A smart voting bot that considers multiple factors before casting votes.
 
@@ -153,7 +155,7 @@ const voter = new IntelligentVoter('my-voter-account', {
 voter.start();
 ```
 
-## :chart_with_upwards_trend: Real-Time Analytics Dashboard
+## :chart_with_upwards_trend: Telegram Real-Time Analytics Dashboard
 
 Track and analyze blockchain metrics in real-time.
 
@@ -345,7 +347,7 @@ analyzer.on('metrics', (metrics: BlockchainMetrics) => {
 analyzer.start();
 ```
 
-## :bell: Advanced Notification System
+## :bell: RSS Advanced Notification System
 
 A comprehensive notification system for multiple channels and conditions.
 
@@ -544,7 +546,7 @@ const notificationSystem = new AdvancedNotificationSystem();
 notificationSystem.start();
 ```
 
-## :mag_right: Content Quality Analyzer
+## :mag_right: AI-powered Content Quality Analyzer
 
 Analyze and score content quality using various metrics.
 
@@ -875,7 +877,7 @@ const qualityAnalyzer = new ContentQualityAnalyzer();
 qualityAnalyzer.start();
 ```
 
-## :trophy: Achievement System
+## :trophy: REST API Achievement System
 
 Gamify user engagement with an achievement system.
 

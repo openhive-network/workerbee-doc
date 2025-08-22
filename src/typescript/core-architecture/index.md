@@ -1,5 +1,5 @@
 ---
-order: -7
+order: -8
 icon: organization
 ---
 
@@ -7,30 +7,13 @@ icon: organization
 
 WorkerBee is built on a sophisticated multi-layered architecture that ensures high performance, reliability, and ease of use. Understanding this architecture helps you leverage WorkerBee's full potential.
 
+TODO: Adjust this section and fix wrong information
+
 ## :mag: Architectural Overview
 
-```text
-Your Application Code
-        ↓
-   Observer API (Fluent Interface)
-        ↓
-   Data Evaluation Context (DEC) 🧠
-        ↓
-┌─────────────────┬─────────────────┐
-│   Filters 🔎   │  Providers 🚚  │
-└─────────────────┴─────────────────┘
-        ↓               ↓
-┌─────────────────────────────────────┐
-│         Collectors 🛒              │
-└─────────────────────────────────────┘
-        ↓
-┌─────────────────────────────────────┐
-│      Blockchain Data ⛓️            │
-│  (RPC, SQL, REST APIs)             │
-└─────────────────────────────────────┘
-```
+![WorkerBee execution loop cycle](../../static/wb-cycle.png){.rounded-lg}
 
-## :brain: Data Evaluation Context (DEC)
+## :robot_face: Data Evaluation Context (DEC)
 
 The **Data Evaluation Context** is WorkerBee's central nervous system. It orchestrates all data flow and provides:
 
@@ -47,7 +30,7 @@ workerbee.observe
 
 // DEC automatically injects:
 // - OperationCollector (for posts)
-// - AccountCollector (for balance changes)  
+// - AccountCollector (for balance changes)
 // - BlockCollector (dependency of both)
 // - DynamicGlobalPropertiesCollector (dependency of BlockCollector)
 ```
@@ -73,7 +56,6 @@ The DEC manages evaluation cycles intelligently:
 
 - **Historical Mode**: Fast processing of past blocks
 - **Live Mode**: Time-based cycles (default: 2 seconds)
-- **Hybrid Mode**: Automatic switching between fast and live modes
 
 ## :mag_right: Filters Layer
 
@@ -103,26 +85,7 @@ workerbee.observe
   .subscribe(/* ... */);
 ```
 
-### :link: Logical Operators
-
-Combine filters with logical operators:
-
-```typescript
-import { and, or } from '@hiveio/workerbee';
-
-// Complex logical expressions
-workerbee.observe
-  .filter(
-    and(
-      onPosts("alice"),
-      or(
-        onAccountsFullManabar("voter1"),
-        onAccountsFullManabar("voter2")
-      )
-    )
-  )
-  .subscribe(/* ... */);
-```
+![](../../static/wb-gantt-parallel.png){.rounded-lg}
 
 ## :truck: Providers Layer
 
@@ -152,7 +115,7 @@ Providers normalize raw blockchain data into WorkerBee's clean API:
   posts: {
     alice: [{
       author: "alice",
-      permlink: "my-post", 
+      permlink: "my-post",
       title: "Hello World",
       body: "This is my post content...",
       tags: ["hive"],
@@ -175,66 +138,9 @@ workerbee.observe
   .subscribe(/* ... */);
 ```
 
-## :shopping_cart: Collectors Layer
+## :shopping_trolley: Collectors Layer
 
 Collectors are the data acquisition layer, responsible for fetching information from various sources.
-
-### :building_construction: Collector Types
-
-#### BlockCollector
-
-Fetches block data and operations:
-
-```typescript
-// Automatically used by operation-based filters
-workerbee.observe.onPosts("alice").subscribe(/* ... */);
-```
-
-#### AccountCollector
-
-Retrieves account information:
-
-```typescript
-// Used by account-based filters and providers
-workerbee.observe
-  .onAccountsBalanceChange(false, "alice")
-  .provideAccounts("alice")
-  .subscribe(/* ... */);
-```
-
-#### DynamicGlobalPropertiesCollector
-
-Fetches blockchain global properties:
-
-```typescript
-// Dependency of most other collectors
-// Automatically injected when needed
-```
-
-#### OperationCollector
-
-Processes blockchain operations:
-
-```typescript
-// Used by operation filters (posts, comments, votes, etc.)
-workerbee.observe.onComments("alice").subscribe(/* ... */);
-```
-
-### :recycle: Collector Strategies
-
-Different collectors may use different strategies for historical vs. live data:
-
-```typescript
-// Historical: Batch processing
-const historical = WorkerBee.create({
-  mode: 'historical',
-  startBlock: 80000000,
-  endBlock: 80001000
-});
-
-// Live: Real-time polling
-const live = WorkerBee.create({ mode: 'live' });
-```
 
 ## :arrows_clockwise: Data Flow Example
 
@@ -263,7 +169,7 @@ workerbee.observe
 
    ```text
    BlockCollector → Fetches latest block data
-   OperationCollector → Extracts operations from blocks  
+   OperationCollector → Extracts operations from blocks
    AccountCollector → Fetches Alice's account data
    ```
 

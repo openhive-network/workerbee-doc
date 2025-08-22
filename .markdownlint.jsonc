@@ -11,5 +11,8 @@
   "MD041": false,
 
   // MD013/line-length: When writing documentation and creating custom badges etc., we sometimes need to exceed the default line length
-  "MD013": false
+  "MD013": false,
+
+  // MD045/no-alt-text: Retype always displays alt text under the images, which we not always want. Disable this so alt text is optional
+  "MD045": false
 }
