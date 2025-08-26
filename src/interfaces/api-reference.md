@@ -1223,3 +1223,349 @@ bot.observe.onVotes("guest4test", "guest4test1").subscribe({
   error: console.error
 });
 ```
+
+## Providers
+
+Providers are specialized data suppliers that enhance WorkerBee filters by delivering enriched blockchain data directly to your observer callbacks. While filters detect specific events or conditions on the blockchain, providers add contextual data and detailed information about accounts, transactions, blocks, and other blockchain entities.
+
+Providers automatically integrate with filters and deliver their data through the same subscription callback, eliminating the need for separate API calls. This creates a seamless development experience where you can access both event notifications and related data in a single observer.
+
+### 👤 Account Data Providers
+
+#### provideAccounts
+
+This provider enriches your filter data with comprehensive account information for specified accounts.
+It retrieves detailed account data including balances, voting power, profile metadata, and recovery account.
+The provider automatically fetches current account state data and delivers it alongside your filter results.
+You can specify multiple accounts to monitor simultaneously, making it perfect for portfolio tracking, account management applications, or social media dashboards.
+It works with both live and past data modes, allowing you to access historical account states or monitor real-time account information.
+The provider is essential for applications that need detailed user information, wallet interfaces, or account analysis tools.
+
+``` ts
+/**
+ * Category: 👤 Account Data Providers
+ * Demo: provideAccounts() — provide comprehensive account information for specified accounts.
+ *
+ * This provider enriches your filter data with detailed account information including balances,
+ * voting power, profile metadata, and recovery account.
+ * Multiple account names can be provided in a single provider call.
+ *
+ * Provider Function Inputs:
+ * - `...accounts: TAccountName[]` - Account names to provide data for
+ *
+ * Callback Data:
+ * The callback receives data of type {@link IAccountProviderData},
+ * which is automatically deduced from the set of configured providers.
+ */
+import WorkerBee from "@hiveio/workerbee";
+
+const bot = new WorkerBee();
+await bot.start();
+
+console.log("⏳ Monitoring blocks with account data...");
+
+bot.observe.onBlock().provideAccounts("guest4test", "guest4test1").subscribe({
+  /*
+   * This observer will trigger on each new block and provide account data.
+   * The callback receives data that includes both block information and account details.
+   * Account data includes balances, voting power, and other account properties.
+   */
+  next(data) {
+    console.log("Block:", data.block.number);
+    console.log("Account 1 data:", data.accounts["guest4test"]);
+    console.log("Account 2 data:", data.accounts["guest4test1"]);
+  },
+  error: console.error
+});
+```
+
+#### provideManabarData
+
+This provider delivers detailed manabar information for specified accounts and manabar types.
+It provides real-time data about account resource usage including current mana levels, last update time, and percentage capacity.
+The provider supports all three manabar types: upvote, downvote, and resource credits (RC).
+Manabar data is crucial for applications that need to manage account resources efficiently or provide users with resource usage insights.
+You can monitor multiple accounts simultaneously, making it perfect for account management tools, automated posting applications, or resource optimization systems.
+The provider works with both live and past data modes, enabling real-time resource monitoring and historical resource usage analysis.
+
+``` ts
+/**
+ * Category: 👤 Account Data Providers
+ * Demo: provideManabarData() — provide detailed manabar information for specified accounts.
+ *
+ * This provider delivers comprehensive manabar data including current levels, last update time,
+ * and percentage capacity for specified accounts and manabar types.
+ * Multiple accounts can be monitored simultaneously.
+ *
+ * Provider Function Inputs:
+ * - `manabarType: EManabarType` - The type of manabar to monitor (RC, UPVOTE, or DOWNVOTE)
+ * - `...accounts: TAccountName[]` - Account names to provide manabar data for
+ *
+ * Callback Data:
+ * The callback receives data of type {@link IManabarProviderData},
+ * which is automatically deduced from the set of configured providers.
+ */
+import { EManabarType } from "@hiveio/wax";
+import WorkerBee from "@hiveio/workerbee";
+
+const bot = new WorkerBee();
+await bot.start();
+
+console.log("⏳ Monitoring manabar data...");
+
+bot.observe.onBlock().provideManabarData(EManabarType.UPVOTE, "guest4test", "guest4test1").subscribe({
+  /*
+   * This observer will trigger on each new block and provide manabar data.
+   * The callback receives manabar information for the specified accounts and manabar type.
+   * Manabar data includes current mana, max mana, and percentage values.
+   */
+  next(data) {
+    for (const account in data.manabarData) {
+      const rcData = data.manabarData[account]?.[EManabarType.UPVOTE];
+
+      if (rcData)
+        console.log(`${account} upvote manabar: ${rcData.percent}% (${rcData.current_mana}/${rcData.max_mana})`);
+    }
+  },
+  error: console.error
+});
+```
+
+#### provideRcAccounts
+
+This provider supplies comprehensive resource credit (RC) account information for specified accounts.
+It delivers detailed RC system data including current RC balance, maximum capacity, and last update time.
+The provider gives access to advanced RC metrics that are essential for applications managing blockchain resource consumption.
+Resource credits are fundamental to Hive's bandwidth system, determining how many operations accounts can perform without fees.
+You can monitor multiple accounts simultaneously, making it perfect for account management tools, resource optimization applications, or automated systems that need to track RC usage.
+The provider works with both live and past data modes, enabling real-time resource monitoring and historical resource usage analysis.
+
+``` ts
+/**
+ * Category: 👤 Account Data Providers
+ * Demo: provideRcAccounts() — provide comprehensive RC account information.
+ *
+ * This provider delivers detailed resource credit system data including current balance,
+ * maximum capacity, regeneration rates, and last update time for specified accounts.
+ * Multiple accounts can be monitored simultaneously.
+ *
+ * Provider Function Inputs:
+ * - `...accounts: TAccountName[]` - Account names to provide RC data for
+ *
+ * Callback Data:
+ * The callback receives data of type {@link IRcAccountProviderData},
+ * which is automatically deduced from the set of configured providers.
+ */
+import WorkerBee from "@hiveio/workerbee";
+
+const bot = new WorkerBee();
+await bot.start();
+
+console.log("⏳ Monitoring RC account data...");
+
+bot.observe.onBlock().provideRcAccounts("guest4test", "guest4test1").subscribe({
+  /*
+   * This observer will trigger on each new block and provide RC account data.
+   * The callback receives detailed resource credit information for the specified accounts.
+   * RC data includes current balance, maximum capacity, and last update time.
+   */
+  next(data) {
+    for (const account in data.rcAccounts) {
+      const rcData = data.rcAccounts[account];
+
+      if (rcData)
+        console.log(`${account} RC details:`, rcData);
+    }
+  },
+  error: console.error
+});
+```
+
+#### provideWitnesses
+
+This provider delivers comprehensive witness information for specified witness accounts.
+It provides detailed witness data including owner, version and block production performance.
+The provider gives access to witness performance metrics, like missed block counts that are essential for monitoring network infrastructure.
+Witnesses are the block producers on the Hive blockchain, and their performance directly affects network security and stability.
+You can monitor multiple witnesses simultaneously, making it perfect for witness monitoring dashboards, network health analysis tools, or voting decision applications.
+The provider works with both live and past data modes, enabling real-time witness monitoring and historical witness performance analysis.
+
+``` ts
+/**
+ * Category: 👤 Account Data Providers
+ * Demo: provideWitnesses() — provide comprehensive witness information.
+ *
+ * This provider delivers detailed witness data including owner, version and block production performance.
+ * Multiple witnesses can be monitored simultaneously.
+ *
+ * Provider Function Inputs:
+ * - `...witnesses: TAccountName[]` - Witness names to provide data for
+ *
+ * Callback Data:
+ * The callback receives data of type {@link IWitnessProviderData},
+ * which is automatically deduced from the set of configured providers.
+ */
+import WorkerBee from "@hiveio/workerbee";
+
+const bot = new WorkerBee();
+await bot.start();
+
+console.log("⏳ Monitoring witness data...");
+
+bot.observe.onBlock().provideWitnesses("guest4test", "guest4test1").subscribe({
+  /*
+   * This observer will trigger on each new block and provide witness data.
+   * The callback receives comprehensive witness information including performance metrics for the specified witnesses.
+   */
+  next(data) {
+    for (const witness in data.witnesses) {
+      const witnessData = data.witnesses[witness];
+      if (witnessData)
+        console.log(`Witness ${witness}:`, witnessData);
+      }
+  },
+  error: console.error
+});
+```
+
+### ⚙️ Blockchain Data Providers
+
+#### provideBlockData
+
+This provider delivers comprehensive block information including both block header and full block data.
+It provides detailed block content including all transactions, operations, witness signatures, and block metadata.
+The provider combines block header data (block number, timestamp, witness) with complete block content for comprehensive blockchain monitoring.
+Block data is fundamental for applications that need to process all blockchain activity or analyze transaction patterns.
+The provider automatically delivers block information with your filter results, eliminating the need for separate block API calls.
+It works with both live and past data modes, enabling real-time block processing and historical blockchain analysis.
+
+``` ts
+/**
+ * Category: ⚙️ Blockchain Data Providers
+ * Demo: provideBlockData() — provide comprehensive block information.
+ *
+ * This provider delivers complete block data including header information and full block content
+ * with all transactions, operations, and witness signatures.
+ * Block data includes comprehensive blockchain state information.
+ *
+ * Provider Function Inputs:
+ * - No parameters required
+ *
+ * Callback Data:
+ * The callback receives data of type {@link IBlockProviderData},
+ * which is automatically deduced from the set of configured providers.
+ */
+import WorkerBee from "@hiveio/workerbee";
+
+const bot = new WorkerBee();
+await bot.start();
+
+console.log("⏳ Monitoring blocks with full data...");
+
+bot.observe.onBlock().provideBlockData().subscribe({
+  /*
+   * This observer will trigger on each new block and provide complete block data.
+   * The callback receives comprehensive block information including all transactions
+   * and operations contained within the block.
+   */
+  next(data) {
+    console.log(`Block ${data.block.number} by @${data.block.witness}`);
+    console.log(`Transactions: ${data.block.transactions.length}`);
+    console.log(`Timestamp: ${data.block.timestamp}`);
+  },
+  error: console.error
+});
+```
+
+#### provideBlockHeaderData
+
+This provider supplies essential block header information including block number, timestamp, witness, and basic block metadata.
+It provides lightweight block data that is perfect for applications that need block timing and identification information without the overhead of full block content.
+Block header data includes critical blockchain timing information and witness rotation details that are essential for many blockchain applications.
+The provider delivers header information efficiently, making it ideal for high-frequency monitoring applications or resource-constrained environments.
+It automatically integrates with your filters, providing block context alongside event notifications.
+The provider works with both live and past data modes, enabling real-time block header monitoring and historical blockchain timing analysis.
+
+``` ts
+/**
+ * Category: ⚙️ Blockchain Data Providers
+ * Demo: provideBlockHeaderData() — provide essential block header information.
+ *
+ * This provider delivers lightweight block header data including block number, timestamp,
+ * witness, and basic metadata without the overhead of full block content.
+ * Header data provides essential timing and identification information.
+ *
+ * Provider Function Inputs:
+ * - No parameters required
+ *
+ * Callback Data:
+ * The callback receives data of type {@link IBlockHeaderProviderData},
+ * which is automatically deduced from the set of configured providers.
+ */
+import WorkerBee from "@hiveio/workerbee";
+
+const bot = new WorkerBee();
+await bot.start();
+
+console.log("⏳ Monitoring block headers...");
+
+bot.observe.onBlock().provideBlockHeaderData().subscribe({
+  /*
+   * This observer will trigger on each new block and provide block header data.
+   * The callback receives essential block timing and identification information
+   * without the overhead of full block content processing.
+   */
+  next(data) {
+    console.log(`Block ${data.block.number} by @${data.block.witness} at ${data.block.timestamp}`);
+  },
+  error: console.error
+});
+```
+
+### 🏦 Financial Data Providers
+
+#### provideFeedPriceData
+
+This provider delivers comprehensive HIVE price feed information including current prices, price history, and statistical price data.
+It provides access to the official witness-published price feeds that determine HIVE-to-HBD conversion rates on the blockchain.
+The provider supplies current median, minimum, and maximum price values along with historical price data for trend analysis.
+Price feed data is essential for financial applications, trading bots, conversion calculators, and economic analysis tools.
+The provider delivers real-time price information alongside your filter results, enabling applications to react to both events and current market conditions.
+It works with both live and past data modes, allowing real-time price monitoring and historical price analysis.
+
+``` ts
+/**
+ * Category: 🏦 Financial Data Providers
+ * Demo: provideFeedPriceData() — provide comprehensive HIVE price feed information.
+ *
+ * This provider delivers complete price feed data including current prices, historical data,
+ * and statistical price information from witness-published feeds.
+ * Price data includes median, minimum, and maximum values with historical trends.
+ *
+ * Provider Function Inputs:
+ * - No parameters required
+ *
+ * Callback Data:
+ * The callback receives data of type {@link IFeedPriceProviderData},
+ * which is automatically deduced from the set of configured providers.
+ */
+import WorkerBee from "@hiveio/workerbee";
+
+const bot = new WorkerBee();
+await bot.start();
+
+console.log("⏳ Monitoring with price feed data...");
+
+bot.observe.onBlock().provideFeedPriceData().subscribe({
+  /*
+   * This observer will trigger on each new block and provide price feed data.
+   * The callback receives comprehensive price information including current rates,
+   * historical data, and statistical price metrics from witness feeds.
+   */
+  next(data) {
+    console.log("Current HIVE price:", data.feedPrice.currentMedianHistory);
+    console.log("Price range:", data.feedPrice.currentMinHistory, "-", data.feedPrice.currentMaxHistory);
+  },
+  error: console.error
+});
+```
