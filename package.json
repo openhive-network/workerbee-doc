@@ -7,7 +7,7 @@
     "prebuild": "husky",
     "build": "retype build",
     "start": "retype start",
-    "lint": "pnpm exec markdownlint src"
+    "lint": "pnpm exec markdownlint src -i src/static/snippets"
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "devDependencies": {

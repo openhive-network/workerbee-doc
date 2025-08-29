@@ -1,7 +1,6 @@
-image: node:18
+image: node:20
 
 stages:
-  - .pre
   - build
   - deploy
 
@@ -23,6 +22,20 @@ default:
     - public-runner-docker
 
 .pnpm_based_job:
+  rules:
+    - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
+      variables:
+        # subpath to branches content for preview
+        PREVIEW_URL_PATH: "-/mr-$CI_MERGE_REQUEST_IID/"
+        PAGES_ENV_NAME: "workerbee-doc-mr-$CI_MERGE_REQUEST_IID"
+    - variables:
+        # default branch subpath
+        PREVIEW_URL_PATH: "default/"
+        PAGES_ENV_NAME: "workerbee-doc-default"
+  variables:
+    CACHED_PUBLIC_DIR: "${CI_PROJECT_DIR}/public"
+    DOC_PATH: "${CACHED_PUBLIC_DIR}/${PREVIEW_URL_PATH}"
+    DOC_URL: "${CI_PAGES_URL}/${PREVIEW_URL_PATH}"
   before_script:
     - corepack enable
     - corepack prepare pnpm@9.1.1 --activate
@@ -30,17 +43,21 @@ default:
     - pnpm install
 
 lint:
-  extends: .pnpm_based_job
   stage: .pre
+  extends: .pnpm_based_job
   script:
     - pnpm run lint
+  rules:
+    - when: always
 
 build:
   stage: build
   extends: .pnpm_based_job
+  needs:
+    - job: lint
   script:
     # Replace the base URL in retype.yml with the GitLab Pages URL
-    - sed -i "s#http://localhost:5005#$CI_PAGES_URL#g" retype.yml
+    - sed -i "s#http://localhost:5005#${CI_PAGES_URL}${PREVIEW_URL_PATH}#g" retype.yml
     - pnpm run build
   artifacts:
     paths:
@@ -48,13 +65,41 @@ build:
     when: always
     expire_in: 1 week
 
-pages:
+.deployment_base:
   stage: deploy
-  script:
-    - echo "The site will be deployed to $CI_PAGES_URL"
-  publish: .retype
+  extends: .pnpm_based_job
+  cache:
+    # using cache is the workaround for keeping multiple deployments (pages for multiple branches at the same time)
+    # due to GitLab "Parallel Deployments" being a premium feature: https://docs.gitlab.com/user/project/pages/#parallel-deployments
+    key: gitlab-pages
+    paths: [ public ]
   artifacts:
-    paths:
-      - .retype
-  only:
-    - main
+    paths: [ public ]
+  tags:  # has to be a single runner or cache should be shared between multiple runners
+    - data-cache-storage
+
+pages:
+  extends: .deployment_base
+  needs:
+    - job: build
+      artifacts: true
+  script:
+    - mkdir -p "$DOC_PATH"
+    - mv .retype/* "$DOC_PATH"
+    - echo "The site will be deployed to $DOC_URL identified by $PAGES_ENV_NAME"
+  environment:
+    name: "$PAGES_ENV_NAME"
+    url: "$DOC_URL"
+    action: start
+    on_stop: cleanup_preview
+
+cleanup_preview:
+  extends: .deployment_base
+  script:
+    - echo "Cleaning up preview environment for MR $CI_MERGE_REQUEST_IID"
+    - rm -rf "$DOC_PATH"
+  environment:
+    name: "$PAGES_ENV_NAME"
+    action: stop
+  when: manual
+  allow_failure: true
