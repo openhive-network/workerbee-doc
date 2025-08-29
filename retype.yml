@@ -18,7 +18,7 @@ branding:
       text: "#e31337"
       background: "#fce7eb"
 cache:
-  token: v1.0
+  token: 1.27.6-rc13
 editor:
   enabled: false
 links:

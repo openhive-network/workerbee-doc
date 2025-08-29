@@ -15,13 +15,6 @@
   .border-blue-500 {
     border-color: rgb(227 19 55 / var(--tw-text-opacity)) !important;
   }
-  #docs-site-header a[target="_blank"] {
-    color: dimgray !important;
-    font-weight: bold;
-  }
-  #docs-site-header a[target="_blank"]:hover {
-    color: rgb(227 19 55 / var(--tw-text-opacity)) !important;
-  }
 
   /* Dark theme */
   :is(.dark .dark\:bg-blue-400) {
@@ -35,11 +28,83 @@
   :is(.dark .dark\:border-blue-400) {
     border-color: rgb(232 66 94 / var(--tw-text-opacity)) !important;
   }
-  :is(.dark #docs-site-header a[target="_blank"]) {
-    color: lightgray !important;
-    font-weight: bold;
-  }
-  :is(.dark #docs-site-header a[target="_blank"]:hover) {
-    color: rgb(232 66 94 / var(--tw-text-opacity)) !important;
-  }
 </style>
+<script>
+  // This code is responsible for persisting the selected programming language
+  {
+    const languages = {
+      'javascript': [],
+      'python': []
+    };
+    const languageKeys = Object.keys(languages);
+
+    const originalHistoryPush = history.pushState;
+    history.pushState = function(...args) {
+      const url = new URL(args[2]);
+      if (url.host !== window.location.host)
+        return originalHistoryPush.apply(this, args); // Do not interfere with external links
+
+      const lang = window.localStorage.getItem('lang');
+      if (lang) {
+        // We could use the official Retype supported syntax, but it is not persistant over multiple websites,
+        // We also cannot link to a specific section when using the hash syntax and when used, it scrolls down.
+        // We can uncomment the following code when Retype makes it work better or adds some official support for persistant state tabs.
+        // const hash = url.hash.slice(1); if (!hash || languageKeys.includes(hash)) url.hash = `#${lang}`; else
+        // For now we have to use the query syntax:
+        url.searchParams.set('lang', lang);
+        args[2] = url.toString();
+      }
+      return originalHistoryPush.apply(this, args);
+    };
+
+    let previousLang;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Also apply the current language periodically.
+      const applyLanguage = () => {
+        const lang = window.localStorage.getItem('lang');
+        if (!lang)
+          return;
+        languages[lang].forEach(el => {
+          el.click();
+        });
+      }
+      // Tab items are generated on the client side based on the templates, so we need to wait for them to be available.
+      // Also the entire DOM of the document.body can be replaced, invalidating all of our components, so we have to re-gather them periodically.
+      const gatherNodes = () => {
+        Object.keys(languages).forEach(async lang => {
+          let langNodes;
+          while(true) {
+            langNodes = document.querySelectorAll(`div#${lang} > a`);
+            if (langNodes.length > 0)
+              break;
+
+            await new Promise(resolve => setTimeout(resolve, 50));
+          }
+
+          if (langNodes[0] === languages[lang][0])
+            return; // Already applied on click event
+
+          languages[lang] = langNodes;
+
+          languages[lang].forEach(el => {
+            el.addEventListener("click", event => {
+              if (!event.isTrusted) return; // Ignore non-user-initiated events
+              window.localStorage.setItem('lang', lang);
+              applyLanguage();
+              // Change the user location for the SEO - load other languages snippets and documentation
+              window.history.pushState(null, '', window.location.href);
+            });
+          });
+          applyLanguage();
+        });
+      };
+      setInterval(gatherNodes, 200);
+      setInterval(applyLanguage, 1000);
+      const url = new URL(window.location.href);
+      const lang = url.searchParams.get('lang');
+      if (lang) // On hard refresh, or on first visit, when lang in query provided - apply this setting
+        window.localStorage.setItem('lang', lang);
+    });
+  }
+</script>
