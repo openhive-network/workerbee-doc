@@ -84,9 +84,9 @@ pages:
     - job: build
       artifacts: true
   script:
-    - mkdir -p "$DOC_PATH"
-    - mv .retype/* "$DOC_PATH"
     - echo "The site will be deployed to $DOC_URL identified by $PAGES_ENV_NAME"
+    - mkdir -p "$DOC_PATH"
+    - cp -r .retype/* "$DOC_PATH"
   environment:
     name: "$PAGES_ENV_NAME"
     url: "$DOC_URL"
