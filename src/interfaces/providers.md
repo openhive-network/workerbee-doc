@@ -13,6 +13,12 @@ Providers transform raw blockchain data into structured TypeScript objects. They
 
 ### :zap: Basic Provider Usage
 
++++ JavaScript
+
+!!!secondary
+Note that the [`?.` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) is used to safely access nested properties, preventing runtime errors if `bob` account is not available for any reason, e.g. if the account is not found, or accounts endpoint is down.
+!!!
+
 ```typescript:highlight="8,12"
 import { WorkerBee } from '@hiveio/workerbee';
 
@@ -30,6 +36,8 @@ workerbee.observe
   });
 ```
 
-!!!secondary
-Note that the [`?.` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) is used to safely access nested properties, preventing runtime errors if `bob` account is not available for any reason, e.g. if the account is not found, or accounts endpoint is down.
-!!!
++++ Python
+
+TBA
+
++++

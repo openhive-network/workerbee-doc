@@ -9,31 +9,27 @@ Welcome to WorkerBee, the powerful TypeScript library that makes building Hive b
 
 ## :package: Installation
 
-Install WorkerBee using your favorite package manager:
+Install WorkerBee:
 
-+++ pnpm
++++ JavaScript
 
 ```bash
 pnpm add @hiveio/workerbee
 ```
 
-+++ yarn
+> You can also use other package managers, such as: `npm` or `yarn`
 
-```bash
-yarn add @hiveio/workerbee
-```
++++ Python
 
-+++ npm
-
-```bash
-npm install @hiveio/workerbee
-```
+TBA
 
 +++
 
 ## :zap: Quick Start
 
 Here's a simple example that initializes and starts the bot:
+
++++ JavaScript
 
 ```typescript
 import { WorkerBee } from '@hiveio/workerbee';
@@ -42,6 +38,12 @@ const bot = new WorkerBee();
 
 bot.start();
 ```
+
++++ Python
+
+TBA
+
++++
 
 ## :building_construction: Core Concepts
 
@@ -53,6 +55,8 @@ WorkerBee uses the Observer pattern, similar to modern reactive libraries. You d
 
 Build complex queries using method chaining, e.g.:
 
++++ JavaScript
+
 ```typescript
 bot.observe
   .onPosts("alice")
@@ -60,11 +64,19 @@ bot.observe
   .subscribe({ /* your callback */ });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## :bulb: Key Benefits
 
 ### :no_entry_sign: No More Polling Loops
 
 Instead of writing endless `while` loops and managing timers, just declare what you want to observe:
+
++++ JavaScript
 
 ```typescript
 // ❌ Old way - manual polling
@@ -77,9 +89,17 @@ setInterval(async () => {
 bot.observe.onPosts("author").subscribe({ /* react */ });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### :shield: Error Handling
 
 WorkerBee handles network errors, API limits, and blockchain reorganizations automatically:
+
++++ JavaScript
 
 ```typescript:highlight="5-8"
 bot.observe
@@ -93,9 +113,17 @@ bot.observe
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### :arrows_counterclockwise: Flexible Data Sources
 
 Switch between live blockchain data and historical analysis without changing your code:
+
++++ JavaScript
 
 ```typescript:highlight="1"
 bot.providePastData('-7d')
@@ -103,3 +131,9 @@ bot.providePastData('-7d')
   .onComments("bob")
   .subscribe({ /* your callback */ });
 ```
+
++++ Python
+
+TBA
+
++++

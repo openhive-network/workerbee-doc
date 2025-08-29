@@ -8,7 +8,10 @@ meta:
   title: " | WorkerBee 📚"
 snippets:
   lineNumbers:
+    - javascript
     - typescript
+    - python
+    - rust
 branding:
   title: WorkerBee Docs
   logo: /static/hive.svg

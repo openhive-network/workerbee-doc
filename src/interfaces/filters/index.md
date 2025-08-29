@@ -15,6 +15,8 @@ Filters monitor the blockchain for specific events and trigger your callbacks wh
 
 ### :zap: Basic Filter Usage
 
++++ JavaScript
+
 ```typescript:highlight="9"
 import { WorkerBee } from '@hiveio/workerbee';
 
@@ -31,3 +33,9 @@ bot.observe
     }
   });
 ```
+
++++ Python
+
+TBA
+
++++

@@ -10,7 +10,9 @@ Configure WorkerBee for different environments and use cases.
 
 ## :wrench: Basic Configuration
 
-### WorkerBeeConfig Interface
+### WorkerBee Config Interface
+
++++ JavaScript
 
 ```typescript
 export interface IStartConfiguration {
@@ -50,12 +52,20 @@ export interface IStartConfiguration {
 }
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## :satellite: API Endpoint Configuration
 
 ### Popular Hive API Endpoints
 
 You can find a full list of Hive API endpoints in the [official Hive documentation](https://developers.hive.io/quickstart/#quickstart-hive-full-nodes)
 and then choose the one that best fits your needs:
+
++++ JavaScript
 
 ```typescript:highlight="5-7"
 import { WorkerBee } from "@hiveio/workerbee";
@@ -70,11 +80,19 @@ const bot = new WorkerBee({
 await bot.start();
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## :clock3: Timing Configuration
 
 ### Timeout Configuration
 
 Sometimes you need to adjust the timeout settings based on your network conditions:
+
++++ JavaScript
 
 ```typescript:highlight="6"
 import { WorkerBee } from "@hiveio/workerbee";
@@ -88,5 +106,11 @@ const bot = new WorkerBee({
 
 await bot.start();
 ```
+
++++ Python
+
+TBA
+
++++
 
 Setting `apiTimeout` to `0` disables the timeout, which can be useful for long-running requests or low-quality networks.

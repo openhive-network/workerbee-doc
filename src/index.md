@@ -26,6 +26,6 @@ WorkerBee, based on `wax`, provides a simple yet powerful interface to interact 
 This document contains executable examples that readers can directly interact with. When first opened, an example will automatically execute. You can also modify an example and re-run it. To re-run an example after modifying it, press the up-arrow in the terminal window to fetch the last command in the command line history (this is the command used to originally execute the example).
 !!!
 
-Below are links to the TypeScript and Python docs. Currently the TypeScript interface is more feature complete, but the Python interface will catch up soon.
-[!ref icon="./static/typescript.svg" text="TypeScript Reference"](./typescript/)
-[!ref icon="./static/python.svg" text="Python Reference"](./python/)
+Start by exploring the WorkerBee Interfaces Reference:
+
+[!ref icon="repo" text="Interfaces Reference"](./interfaces/)

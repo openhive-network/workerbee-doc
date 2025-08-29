@@ -13,6 +13,8 @@ TODO: Enhance examples and make them simpler, integrate with the mentioned platf
 
 A smart voting bot that considers multiple factors before casting votes.
 
++++ JavaScript
+
 ```typescript
 import { WorkerBee, and } from '@hiveio/workerbee';
 
@@ -62,7 +64,7 @@ class IntelligentVoter {
 
             const authorAccount = accounts[author];
             const authorFollowers = followCounts[author];
-            
+
             if (!authorAccount || !authorFollowers) continue;
 
             // Check reputation
@@ -94,7 +96,7 @@ class IntelligentVoter {
 
   private async shouldVote(post: any): Promise<boolean> {
     // Check for required tags
-    const hasRequiredTag = this.config.requiredTags.some(tag => 
+    const hasRequiredTag = this.config.requiredTags.some(tag =>
       post.tags.includes(tag)
     );
 
@@ -125,7 +127,7 @@ class IntelligentVoter {
     try {
       // In a real implementation, you'd use @hiveio/dhive or similar
       console.log(`🗳️  Voting on @${author}/${permlink} with ${this.config.voteWeight / 100}% weight`);
-      
+
       // Simulated vote - replace with actual voting logic
       // const result = await hivejs.broadcast.vote(
       //   voterKey,
@@ -134,7 +136,7 @@ class IntelligentVoter {
       //   permlink,
       //   this.config.voteWeight
       // );
-      
+
       console.log(`Vote cast successfully!`);
     } catch (error) {
       console.error(`Failed to vote on @${author}/${permlink}:`, error);
@@ -155,7 +157,15 @@ const voter = new IntelligentVoter('my-voter-account', {
 voter.start();
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## :chart_with_upwards_trend: Telegram Real-Time Analytics Dashboard
+
++++ JavaScript
 
 Track and analyze blockchain metrics in real-time.
 
@@ -207,7 +217,7 @@ class BlockchainAnalyzer extends EventEmitter {
           this.updateOperationMetrics(operations);
           this.updateWitnessMetrics(witnessSchedule);
           this.updateGlobalMetrics(globalProperties);
-          
+
           // Emit updated metrics every 10 blocks
           if (this.blockCount % 10 === 0) {
             this.emitMetrics();
@@ -237,12 +247,12 @@ class BlockchainAnalyzer extends EventEmitter {
         if (op.parent_author === '') {
           // This is a post
           this.postCount++;
-          
+
           // Update author stats
           const authorStat = this.authorStats.get(op.author) || { posts: 0, votes: 0 };
           authorStat.posts++;
           this.authorStats.set(op.author, authorStat);
-          
+
           // Update tag stats
           try {
             const metadata = JSON.parse(op.json_metadata || '{}');
@@ -262,7 +272,7 @@ class BlockchainAnalyzer extends EventEmitter {
 
     if (operations.vote) {
       this.voteCount += operations.vote.length;
-      
+
       // Update vote stats for authors
       operations.vote.forEach((vote: any) => {
         const authorStat = this.authorStats.get(vote.author) || { posts: 0, votes: 0 };
@@ -310,7 +320,7 @@ class BlockchainAnalyzer extends EventEmitter {
       .slice(0, 10);
 
     this.emit('metrics', { ...this.metrics });
-    
+
     console.log('📊 Current Metrics:');
     console.log(`  Blocks/min: ${this.metrics.blocksPerMinute.toFixed(2)}`);
     console.log(`  Transactions/min: ${this.metrics.transactionsPerMinute.toFixed(2)}`);
@@ -339,7 +349,7 @@ const analyzer = new BlockchainAnalyzer();
 analyzer.on('metrics', (metrics: BlockchainMetrics) => {
   // Send metrics to dashboard, database, or alerting system
   console.log('Updated metrics received:', metrics);
-  
+
   // Example: Send to web dashboard via WebSocket
   // webSocket.send(JSON.stringify({ type: 'metrics', data: metrics }));
 });
@@ -347,9 +357,17 @@ analyzer.on('metrics', (metrics: BlockchainMetrics) => {
 analyzer.start();
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## :bell: RSS Advanced Notification System
 
 A comprehensive notification system for multiple channels and conditions.
+
++++ JavaScript
 
 ```typescript
 import { WorkerBee, or } from '@hiveio/workerbee';
@@ -407,10 +425,10 @@ class NotificationRule {
     if (!this.shouldNotify()) return;
 
     const message = this.template(data);
-    
+
     await Promise.all(
-      this.channels.map(channel => 
-        channel.send(message, data).catch(error => 
+      this.channels.map(channel =>
+        channel.send(message, data).catch(error =>
           console.error(`Failed to send notification via channel:`, error)
         )
       )
@@ -443,10 +461,10 @@ class AdvancedNotificationSystem {
         .providePostDetails(),
       (data) => {
         const highValuePosts = Object.entries(data.postDetails)
-          .filter(([_, post]: [string, any]) => 
+          .filter(([_, post]: [string, any]) =>
             parseFloat(post.pending_payout_value.replace(' HBD', '')) > 50
           );
-        
+
         return `💰 High-value posts detected: ${highValuePosts.length} posts with >$50 pending payout`;
       },
       [this.channels.slack, this.channels.discord],
@@ -497,11 +515,11 @@ class AdvancedNotificationSystem {
         .provideDynamicGlobalProperties(),
       (data) => {
         const timeSinceLastBlock = Date.now() - new Date(data.block.timestamp + 'Z').getTime();
-        
+
         if (timeSinceLastBlock > 60000) { // More than 1 minute
           return `⚠️ Network issue: Last block was ${Math.round(timeSinceLastBlock / 1000)}s ago`;
         }
-        
+
         return null; // No notification needed
       },
       [this.channels.email, this.channels.slack, this.channels.discord],
@@ -546,9 +564,17 @@ const notificationSystem = new AdvancedNotificationSystem();
 notificationSystem.start();
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## :mag_right: AI-powered Content Quality Analyzer
 
 Analyze and score content quality using various metrics.
+
++++ JavaScript
 
 ```typescript
 import { WorkerBee } from '@hiveio/workerbee';
@@ -590,7 +616,7 @@ class ContentQualityAnalyzer {
         next: async ({ posts, accounts }) => {
           for (const [author, authorPosts] of Object.entries(posts)) {
             const authorAccount = accounts[author];
-            
+
             for (const post of authorPosts) {
               const report = await this.analyzePost(post, authorAccount);
               this.handleQualityReport(report);
@@ -621,28 +647,28 @@ class ContentQualityAnalyzer {
   private calculateMetrics(post: any): QualityMetrics {
     const body = post.body.toLowerCase();
     const words = body.split(/\s+/).filter(word => word.length > 0);
-    
+
     // Word count
     const wordCount = words.length;
-    
+
     // Image count
     const imageCount = (post.body.match(/!\[.*?\]\([^)]+\)/g) || []).length;
-    
-    // Link count  
+
+    // Link count
     const linkCount = (post.body.match(/\[.*?\]\([^)]+\)/g) || []).length;
-    
+
     // Reading time (assuming 200 words per minute)
     const readingTime = Math.ceil(wordCount / 200);
-    
+
     // Sentiment score
     const sentimentScore = this.calculateSentiment(words);
-    
+
     // Grammar score (simplified)
     const grammarScore = this.calculateGrammarScore(post.body);
-    
+
     // Originality score (simplified check for common phrases)
     const originalityScore = this.calculateOriginalityScore(body);
-    
+
     // Engagement potential
     const engagementPotential = this.calculateEngagementPotential(post, wordCount, imageCount);
 
@@ -660,7 +686,7 @@ class ContentQualityAnalyzer {
 
   private calculateSentiment(words: string[]): number {
     let score = 50; // Neutral baseline
-    
+
     words.forEach(word => {
       if (this.positiveWords.includes(word)) {
         score += 2;
@@ -668,36 +694,36 @@ class ContentQualityAnalyzer {
         score -= 2;
       }
     });
-    
+
     return Math.max(0, Math.min(100, score));
   }
 
   private calculateGrammarScore(text: string): number {
     let score = 100;
-    
+
     // Simple grammar checks
     const sentences = text.split(/[.!?]+/).filter(s => s.trim());
-    
+
     sentences.forEach(sentence => {
       const trimmed = sentence.trim();
-      
+
       // Check capitalization
       if (trimmed && trimmed[0] !== trimmed[0].toUpperCase()) {
         score -= 2;
       }
-      
+
       // Check for very long sentences (>50 words)
       if (trimmed.split(/\s+/).length > 50) {
         score -= 3;
       }
     });
-    
+
     // Check for excessive punctuation
     const exclamationCount = (text.match(/!/g) || []).length;
     if (exclamationCount > 5) {
       score -= exclamationCount;
     }
-    
+
     return Math.max(0, Math.min(100, score));
   }
 
@@ -709,62 +735,62 @@ class ContentQualityAnalyzer {
       'what do you think',
       'leave a comment'
     ];
-    
+
     let score = 100;
-    
+
     commonPhrases.forEach(phrase => {
       if (text.includes(phrase)) {
         score -= 10;
       }
     });
-    
+
     // Check for repetitive patterns
     const words = text.split(/\s+/);
     const uniqueWords = new Set(words).size;
     const repetitionRatio = uniqueWords / words.length;
-    
+
     if (repetitionRatio < 0.3) {
       score -= 20; // Very repetitive
     } else if (repetitionRatio < 0.5) {
       score -= 10; // Somewhat repetitive
     }
-    
+
     return Math.max(0, Math.min(100, score));
   }
 
   private calculateEngagementPotential(post: any, wordCount: number, imageCount: number): number {
     let score = 0;
-    
+
     // Word count scoring
     if (wordCount >= 300 && wordCount <= 1500) {
       score += 30; // Optimal length
     } else if (wordCount >= 150) {
       score += 15; // Decent length
     }
-    
+
     // Image scoring
     if (imageCount >= 1 && imageCount <= 5) {
       score += 25; // Good visual content
     } else if (imageCount > 5) {
       score += 10; // Maybe too many images
     }
-    
+
     // Title scoring
     const titleWords = post.title.split(/\s+/).length;
     if (titleWords >= 3 && titleWords <= 12) {
       score += 20; // Good title length
     }
-    
+
     // Tags scoring
     if (post.tags && post.tags.length >= 3) {
       score += 15; // Good categorization
     }
-    
+
     // Question or discussion prompt
     if (post.body.includes('?') || post.body.includes('what do you')) {
       score += 10; // Encourages engagement
     }
-    
+
     return Math.max(0, Math.min(100, score));
   }
 
@@ -776,7 +802,7 @@ class ContentQualityAnalyzer {
       originality: 0.25,
       engagement: 0.15
     };
-    
+
     // Normalize word count score (300-1500 words = 100 points)
     let wordScore = 0;
     if (metrics.wordCount >= 300 && metrics.wordCount <= 1500) {
@@ -786,59 +812,59 @@ class ContentQualityAnalyzer {
     } else if (metrics.wordCount >= 50) {
       wordScore = 30;
     }
-    
-    const score = 
+
+    const score =
       (wordScore * weights.wordCount) +
       (metrics.sentimentScore * weights.sentiment) +
       (metrics.grammarScore * weights.grammar) +
       (metrics.originalityScore * weights.originality) +
       (metrics.engagementPotential * weights.engagement);
-    
+
     // Author reputation bonus
     const reputation = parseInt(authorAccount.reputation);
     let reputationBonus = 0;
     if (reputation > 70) reputationBonus = 5;
     else if (reputation > 60) reputationBonus = 3;
     else if (reputation > 50) reputationBonus = 1;
-    
+
     return Math.min(100, score + reputationBonus);
   }
 
   private generateRecommendations(metrics: QualityMetrics, post: any): string[] {
     const recommendations: string[] = [];
-    
+
     if (metrics.wordCount < 150) {
       recommendations.push('Consider expanding your content. Longer posts tend to get more engagement.');
     }
-    
+
     if (metrics.wordCount > 2000) {
       recommendations.push('Your post is quite long. Consider breaking it into parts or adding more images.');
     }
-    
+
     if (metrics.imageCount === 0) {
       recommendations.push('Adding images can significantly improve engagement and readability.');
     }
-    
+
     if (metrics.grammarScore < 70) {
       recommendations.push('Review your post for grammar and punctuation errors.');
     }
-    
+
     if (metrics.sentimentScore < 30) {
       recommendations.push('Your post seems quite negative. Consider balancing with positive elements.');
     }
-    
+
     if (metrics.originalityScore < 50) {
       recommendations.push('Try to avoid common phrases and make your content more unique.');
     }
-    
+
     if (metrics.engagementPotential < 50) {
       recommendations.push('Add questions or discussion prompts to encourage reader interaction.');
     }
-    
+
     if (!post.tags || post.tags.length < 3) {
       recommendations.push('Use more relevant tags to help others discover your content.');
     }
-    
+
     return recommendations;
   }
 
@@ -846,7 +872,7 @@ class ContentQualityAnalyzer {
     console.log(`\n📊 Quality Report for @${report.author}/${report.permlink}`);
     console.log(`📝 Title: "${report.title}"`);
     console.log(`⭐ Overall Score: ${report.overallScore.toFixed(1)}/100`);
-    
+
     console.log('\n📈 Metrics:');
     console.log(`  Words: ${report.metrics.wordCount}`);
     console.log(`  Images: ${report.metrics.imageCount}`);
@@ -855,14 +881,14 @@ class ContentQualityAnalyzer {
     console.log(`  Grammar: ${report.metrics.grammarScore.toFixed(1)}/100`);
     console.log(`  Originality: ${report.metrics.originalityScore.toFixed(1)}/100`);
     console.log(`  Engagement: ${report.metrics.engagementPotential.toFixed(1)}/100`);
-    
+
     if (report.recommendations.length > 0) {
       console.log('\n💡 Recommendations:');
       report.recommendations.forEach((rec, i) => {
         console.log(`  ${i + 1}. ${rec}`);
       });
     }
-    
+
     // You could store this data in a database, send it to the author, etc.
     if (report.overallScore >= 80) {
       console.log('🏆 High quality content detected!');
@@ -877,9 +903,17 @@ const qualityAnalyzer = new ContentQualityAnalyzer();
 qualityAnalyzer.start();
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## :trophy: REST API Achievement System
 
 Gamify user engagement with an achievement system.
+
++++ JavaScript
 
 ```typescript
 import { WorkerBee } from '@hiveio/workerbee';
@@ -1052,7 +1086,7 @@ class AchievementSystem {
   private updatePostingStreak(stats: UserStats, currentDate: string) {
     const today = new Date(currentDate).toDateString();
     const lastPost = stats.lastPostDate ? new Date(stats.lastPostDate).toDateString() : '';
-    
+
     if (lastPost === today) {
       // Already posted today, no change to streak
       return;
@@ -1092,33 +1126,33 @@ class AchievementSystem {
     console.log(`${achievement.badge} ${achievement.title}`);
     console.log(`📝 ${achievement.description}`);
     console.log(`🎯 Points Earned: ${achievement.points}`);
-    
+
     // In a real implementation, you might:
     // - Store in database
     // - Send notification to user
     // - Update user's total points
     // - Trigger additional rewards
-    
+
     this.notifyUserOfAchievement(author, achievement);
   }
 
   private async notifyUserOfAchievement(author: string, achievement: Achievement) {
     // This could send a comment, transfer tokens, or notify via external service
     console.log(`📢 Notifying @${author} of their new achievement!`);
-    
+
     // Example: Post a congratulatory comment (you'd need to implement the actual commenting)
     /*
     const congratsMessage = `
-    🎉 Congratulations @${author}! 
-    
+    🎉 Congratulations @${author}!
+
     You've earned the "${achievement.title}" achievement! ${achievement.badge}
     ${achievement.description}
-    
+
     Points earned: ${achievement.points}
-    
+
     Keep up the great work! 🚀
     `;
-    
+
     // await postComment(author, congratsMessage);
     */
   }
@@ -1127,7 +1161,7 @@ class AchievementSystem {
     return Array.from(this.userStats.entries()).map(([author, stats]) => {
       const earnedAchievements = this.achievements.filter(a => a.condition(stats));
       const totalPoints = earnedAchievements.reduce((sum, a) => sum + a.points, 0);
-      
+
       return {
         author,
         totalPoints,
@@ -1139,7 +1173,7 @@ class AchievementSystem {
   getUserAchievements(author: string): Achievement[] {
     const stats = this.userStats.get(author);
     if (!stats) return [];
-    
+
     return this.achievements.filter(achievement => achievement.condition(stats));
   }
 }
@@ -1157,5 +1191,11 @@ setInterval(() => {
   });
 }, 300000); // Every 5 minutes
 ```
+
++++ Python
+
+TBA
+
++++
 
 These advanced examples showcase WorkerBee's power for building sophisticated blockchain applications. Each example demonstrates different architectural patterns, real-world use cases, and advanced features of the library.

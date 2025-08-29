@@ -1,13 +1,13 @@
 ---
 order: -2
-icon: ../static/typescript.svg
+icon: repo
 expanded: false
-label: TypeScript Interface
+label: Interface Reference
 ---
 
-# TypeScript Documentation Overview
+# Documentation Overview
 
-Welcome to the complete TypeScript documentation for WorkerBee! This section provides comprehensive guides, examples, and references for building powerful blockchain applications.
+Welcome to the complete documentation for WorkerBee! This section provides comprehensive guides, examples, and references for building powerful blockchain applications.
 
 ## :rocket: Getting Started
 
