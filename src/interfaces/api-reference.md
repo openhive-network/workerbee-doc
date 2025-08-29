@@ -13,15 +13,21 @@ XXX: Remember to embed snippets with lines after `import` (without preceding JSD
 
 ## Filters
 
+**Data Mode Availability:**
+
+- **🟢 Live Mode Only** - These filters require real-time blockchain data and are only available when using `workerbee.observe`
+- **🔵 Live and Past Data Modes** - These filters work with both live data (`workerbee.observe`) and historical data (`workerbee.providePastOperations()`)
+
 ### 👤 Account Management
 
 #### onAccountsFullManabar
+
+**🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
 This filter triggers when any of the specified accounts reaches 98% manabar capacity.
 The monitored manabar type is specified as the first parameter and can be one of 3 types: `UPVOTE`, `DOWNVOTE`, or `RC`.
 The filter provides manabar information for each monitored account in the callback data.
 When observing multiple accounts, remember to check if manabar data is available for the specific account.
-This filter is only available when working with live data.
 
 ``` ts
 /**
@@ -66,8 +72,10 @@ bot.observe.onAccountsFullManabar(EManabarType.RC, "guest4test", "guest4test1").
 
 #### onAccountsManabarPercent
 
+**🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
+
 This filter works similarly to [`onAccountsFullManabar`](#onaccountsfullmanabar), but allows you to specify a custom manabar percentage threshold.
-It provides the account's manabar data in the callback and is also available only in live data mode.
+It provides the account's manabar data in the callback.
 
 ``` ts
 /**
@@ -113,8 +121,9 @@ bot.observe.onAccountsManabarPercent(EManabarType.RC, 90, "guest4test", "guest4t
 
 #### onAccountsMetadataChange
 
+**🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
+
 This filter triggers when any of the specified accounts updates their metadata.
-It is available in both live and past data modes.
 You can observe multiple accounts in a single observer call.
 XXX: Remember to update description here when this filter will provide some callback data
 
@@ -153,7 +162,10 @@ bot.observe.onAccountsMetadataChange("guest4test", "guest4test1").subscribe({
 
 #### onImpactedAccounts
 
-This filter triggers when any new blockchain operation affects one of the specified accounts (transfers, votes, mentions, etc.).
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
+This filter triggers when any new blockchain operation affects one of the specified accounts (transfers, votes, mentions, etc.),
+also when the account is just referenced by operation that has been authorized by another account, i.e. when alice voted on bob's comment, bob is also and impacted account.
 You can monitor multiple accounts in both live and past data modes.
 Remember to check if data for a specific account actually exists when observing multiple accounts.
 
@@ -172,6 +184,7 @@ Remember to check if data for a specific account actually exists when observing 
  * Callback Data:
  * The callback receives data of type {@link IImpactedAccountProviderData},
  * which is automatically deduced from the set of configured filters.
+ * Collected operations are grouped by account to allow easy association to the impacted account.
  */
 import WorkerBee from "@hiveio/workerbee";
 
@@ -200,10 +213,11 @@ bot.observe.onImpactedAccounts("guest4test", "guest4test1").subscribe({
 
 #### onNewAccount
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers when new accounts are created on the blockchain through account creation operations.
 It monitors three types of account creation operations: `account_create_operation`, `account_create_with_delegation_operation`, and `create_claimed_account_operation`.
 The filter requires no input parameters as it monitors all new account creations globally.
-It is available in both live and past data modes.
 The callback data includes detailed information about each newly created account, including the account name, creator, authorities, and metadata.
 
 ``` ts
@@ -249,10 +263,11 @@ bot.observe.onNewAccount().subscribe({
 
 #### onBlockNumber
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers when the blockchain reaches a specific block number.
 It is useful for scheduled operations, testing scenarios, or waiting for governance proposals that become active at a particular block.
 The filter takes a single block number parameter and monitors the blockchain until that exact block is produced.
-It is available in both live and past data modes.
 The filter provides no callback data as it is designed to be a simple notification mechanism - if you need block details, combine it with block providers.
 XXX: Add link to block provider
 
@@ -284,7 +299,8 @@ bot.observe.onBlockNumber(targetBlock).subscribe({
    * This observer will trigger when the blockchain reaches the specified block number.
    * Useful for scheduled operations, testing, or waiting for governance proposals.
    * There is no callback data for this observer - it simply notifies when the target block is reached.
-   * The main concept of this observer is to observe for specific block without a need of calling get_block API
+   * The main concept of this observer is to monitor only head block number changes,
+   * without a need to acquire whole block data (e.g. by using `block_api` calls).
    * This is why the block header data is also not available in the callback.
    */
   next() {
@@ -296,10 +312,12 @@ bot.observe.onBlockNumber(targetBlock).subscribe({
 
 #### onBlock
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers on every new block produced on the blockchain.
 Unlike [`onBlockNumber`](#onblocknumber) which waits for a specific block number to be reached and then triggers once, `onBlock` continuously monitors the blockchain and triggers for every single block that gets produced.
 It provides comprehensive block header data in the callback, making it perfect for real-time blockchain monitoring and applications that need to process every block.
-The filter requires no input parameters and is available in both live and past data modes.
+The filter requires no input parameters.
 When processing past data, it will trigger for each block in the specified range, allowing you to replay blockchain history.
 
 ``` ts
@@ -340,10 +358,11 @@ bot.observe.onBlock().subscribe({
 
 #### onTransactionIds
 
-This filter triggers when specific transaction IDs appear on the blockchain.
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
+This filter triggers when specific transaction IDs appear on the blocks distributed by blockchain.
 It is particularly useful for tracking the inclusion of specific transactions in blocks, monitoring transaction confirmations, or building applications that need to react when certain transactions are processed.
 You can monitor multiple transaction IDs simultaneously, and the filter will trigger when any of them appears on the blockchain.
-The filter is available in both live and past data modes, making it perfect for both real-time monitoring and historical analysis.
 The callback provides detailed transaction data for each monitored transaction ID, allowing you to access the full transaction content and metadata.
 
 ``` ts
@@ -366,10 +385,27 @@ import WorkerBee from "@hiveio/workerbee";
 const bot = new WorkerBee();
 await bot.start();
 
+// You can access chain only after calling start method.
+const tx = await bot.chain!.createTransaction();
+
+// Push transfer operation to the transaction
+tx.pushOperation({
+  transfer_operation: {
+    from: 'bob',
+    to: 'alice',
+    amount: bot.chain!.hbdSatoshis('1000'),
+    memo: 'For dinner'
+  }
+});
+
+// Get id and also legacy_id, since some wallets still implicitly sign transactions using legacy mode.
+const id = tx.id;
+const legacyId = tx.legacy_id;
+
 console.log("⏳ Watching for specific transaction IDs...");
 
 // Example transaction IDs (replace with actual ones)
-bot.observe.onTransactionIds("example-tx-id-1", "example-tx-id-2").subscribe({
+bot.observe.onTransactionIds(id, legacyId).subscribe({
   /*
    * This observer will trigger when any of the specified transaction IDs appear on the blockchain.
    * The callback receives data of type {@link ITransactionProviderData}, which includes:
@@ -378,8 +414,8 @@ bot.observe.onTransactionIds("example-tx-id-1", "example-tx-id-2").subscribe({
    * You should check for the existence of each transaction before accessing its properties when observing multiple IDs.
    */
   next(data) {
-    if (data.transactions["example-tx-id-1"])
-      console.log("🔍 Transaction found: example-tx-id-1");
+    if (data.transactions[id])
+      console.log(`🔍 Transaction found: ${id}`);
   },
   error: console.error
 });
@@ -389,11 +425,12 @@ bot.observe.onTransactionIds("example-tx-id-1", "example-tx-id-2").subscribe({
 
 #### onAccountsBalanceChange
 
+**🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
+
 This filter triggers when account balances change due to various financial operations on the blockchain.
-It monitors all types of balance modifications including incoming and outgoing transfers, author/curation rewards, witness rewards, power ups/downs, savings operations, and conversions.
+It monitors all types of balance changes including incoming and outgoing transfers, author/curation rewards, witness rewards, power ups/downs, savings operations, and conversions.
 The filter allows you to specify whether to include internal balance changes through the `includeInternal` parameter.
 You can monitor multiple accounts simultaneously, making it perfect for portfolio tracking, payment processing, or automated financial applications.
-The filter is available in both live and past data modes, allowing you to track balance changes in real-time or analyze historical financial activity.
 XXX: Update description when callback data will be available
 
 ``` ts
@@ -434,13 +471,14 @@ bot.observe.onAccountsBalanceChange(true, "guest4test", "guest4test1").subscribe
 
 #### onExchangeTransfer
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers when transfers involve known cryptocurrency exchange accounts on the Hive blockchain.
 WorkerBee maintains an internal list of recognized exchange accounts and automatically monitors all transfer operations that either originate from or are directed to these exchanges.
 XXX: `to` is not implemented yet
 This is particularly useful for tracking market movements, analyzing trading patterns, detecting large deposits/withdrawals, or building exchange monitoring applications.
 The filter requires no input parameters as it globally monitors all exchange-related transfers, making it ideal for market analysis and trading bot applications.
 It provides detailed transfer data including amounts, sender/receiver information, and memo fields, allowing you to analyze exchange activity patterns.
-The filter is available in both live and past data modes.
 
 ``` ts
 /**
@@ -483,11 +521,13 @@ bot.observe.onExchangeTransfer().subscribe({
 
 #### onFeedPriceChange
 
+**🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
+
 This filter triggers when the Hive price feed changes by a specified percentage threshold.
 It monitors the official price feed data published by witnesses and detects significant price movements that exceed your defined percentage threshold.
 This is particularly useful for building trading bots, price alert systems, or applications that need to react to market volatility.
 The filter allows you to set a custom percentage threshold (e.g., 5 for 5% change) to control the sensitivity of price change detection.
-It's perfect for monitoring market conditions without constantly polling price data, and works with both live and past data modes.
+It's perfect for monitoring market conditions without constantly polling price data.
 The filter is essential for financial applications that need to respond to significant price movements on the Hive blockchain.
 
 ``` ts
@@ -525,12 +565,13 @@ bot.observe.onFeedPriceChange(5).subscribe({
 
 #### onFeedPriceNoChange
 
+**🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
+
 This filter triggers when the Hive price feed remains completely unchanged for a specified number of hours.
 Unlike [`onFeedPriceChange`](#onfeedpricechange) which detects price movements, this filter is designed to detect periods of price stability and low market volatility.
 The filter monitors the price history feed data and checks if the exact same price value has been maintained for the specified duration.
 This is particularly useful for detecting market stagnation, low trading volume periods, or identifying optimal times for certain trading strategies that work best in stable market conditions.
 The filter accepts a parameter specifying the number of hours of required stability, with a default of 24 hours if no parameter is provided.
-It works with both live and past data modes, making it valuable for both real-time monitoring and historical market analysis.
 
 ``` ts
 /**
@@ -567,12 +608,13 @@ bot.observe.onFeedPriceNoChange(24).subscribe({
 
 #### onInternalMarketOperation
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers when operations occur on Hive's built-in internal decentralized exchange (DEX) for HIVE ↔ HBD trading.
 It monitors three specific types of market operations: limit order creation, order cancellation, and automatic order fills when orders are matched.
 The internal market allows users to trade between HIVE and HBD (Hive Backed Dollars) directly on the blockchain without using external exchanges.
 This filter is particularly useful for building market analysis tools, arbitrage bots, trading dashboards, or applications that need to track decentralized trading activity.
 The filter requires no input parameters as it globally monitors all internal market operations, providing comprehensive coverage of the built-in DEX activity.
-It works with both live and past data modes, making it valuable for real-time trading applications and historical market analysis.
 
 ``` ts
 /**
@@ -615,12 +657,13 @@ bot.observe.onInternalMarketOperation().subscribe({
 
 #### onWhaleAlert
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers when large transfers exceed a specified amount threshold, making it perfect for monitoring significant financial movements on the Hive blockchain.
 It monitors four specific types of transfer operations: regular transfers, transfers from savings, escrow transfers, and recurrent transfers.
 The filter is commonly known as "whale watching" in crypto communities, as it helps detect when large holders (whales) move substantial amounts of cryptocurrency.
 You can specify any asset type and amount threshold using the chain's helper methods like `bot.chain.hiveCoins(1000)`.
 This filter is particularly useful for market analysis, detecting potential market-moving transactions, building trading alerts, or monitoring large account movements for security purposes.
-It works with both live and past data modes, providing comprehensive coverage for financial surveillance and analysis applications.
 
 ``` ts
 /**
@@ -671,11 +714,12 @@ bot.observe.onWhaleAlert(threshold).subscribe({
 
 #### onAlarm
 
+**🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
+
 This filter triggers when monitored accounts experience security or governance-related situations that require attention.
 It detects five specific alarm types: legacy recovery account configuration (accounts still using "steem" as recovery account from old blockchain), expired governance votes (accounts that haven't participated in governance for extended periods), upcoming governance vote expiration (within one month), active recovery account changes (during the 30-day waiting period), and accounts that have declined their voting rights.
 The filter is essential for account security monitoring, governance participation tracking, and detecting potentially compromised or misconfigured accounts.
 You can monitor multiple accounts simultaneously, making it perfect for wallet applications, account management tools, or security monitoring systems.
-It works with both live and past data modes, allowing you to track security events in real-time or analyze historical governance patterns.
 
 ``` ts
 /**
@@ -721,12 +765,13 @@ bot.observe.onAlarm("guest4test", "guest4test1").subscribe({
 
 #### onWitnessesMissedBlocks
 
+**🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
+
 This filter triggers when specified witness accounts miss a threshold number of consecutive blocks during their scheduled block production turns.
 It monitors witness performance by tracking the `totalMissedBlocks` counter and `lastConfirmedBlockNum` to detect when witnesses fail to produce blocks when they're supposed to.
 The filter is essential for network health monitoring, witness performance analysis, and detecting potential issues with witness nodes (server downtime, connectivity problems, or configuration issues).
 It intelligently resets its tracking when a witness successfully produces a block again, preventing duplicate notifications for the same missed block streak.
 You can monitor multiple witnesses simultaneously with different threshold values, making it perfect for witness monitoring dashboards, alerting systems, or blockchain infrastructure monitoring tools.
-The filter works with both live and past data modes, allowing you to analyze historical witness performance or monitor real-time witness reliability.
 
 ``` ts
 /**
@@ -768,21 +813,26 @@ bot.observe.onWitnessesMissedBlocks(1, "guest4test", "guest4test1").subscribe({
 
 #### onCommentsIncomingPayout
 
-This filter triggers when comments by specified authors are approaching their payout window expiration, allowing you to monitor content performance before final reward distribution.
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
+This filter triggers when **replies/comments** (not top-level posts) by specified authors are approaching their payout window expiration, allowing you to monitor engagement performance before final reward distribution.
 On the Hive blockchain, comments have a 7-day payout window after creation, and this filter detects when they're nearing that critical payout moment.
+The filter specifically monitors replies to posts or other comments (content with a non-empty `parent_author` field), distinguishing them from top-level posts.
 You can specify a relative time offset (like "-30m" for 30 minutes before payout or "-1h" for 1 hour before) to receive notifications at your preferred timing.
 This is particularly useful for content creators, curators, or applications that need to take action before payout finalization - such as last-minute promotion, vote adjustments, or performance analytics.
 You can monitor multiple authors simultaneously, making it perfect for content management dashboards, curation tools, or automated content promotion systems.
-It works with both live and past data modes, allowing you to analyze historical payout patterns or monitor real-time content performance. Rememeber that you need to collect past operations to access old posts and comments to monitor their payout right after starting the application.
+Remember that you need to collect past operations to access old posts and comments to monitor their payout right after starting the application.
+
+**Note:** For monitoring top-level posts approaching payout, use [`onPostsIncomingPayout`](#onpostsincomingpayout) instead.
 
 ``` ts
 /**
  * Category: 👥 Social & Content
- * Demo: onCommentsIncomingPayout() — monitor comments near payout window.
+ * Demo: onCommentsIncomingPayout() — monitor replies/comments near payout window.
  *
- * This observer triggers when comments by specified authors are approaching their
- * payout window (7 days after creation). Useful for monitoring comment earnings
- * and engagement performance before final payout. Multiple authors can be monitored simultaneously.
+ * This observer triggers when replies/comments (not top-level posts) by specified authors are approaching their
+ * payout window (7 days after creation). Useful for monitoring engagement performance
+ * before final payout. Multiple authors can be monitored simultaneously.
  *
  * Filter Function Inputs:
  * - `relative: string` - Time window specification (e.g., "-30m" for last 30 minutes before payout)
@@ -816,11 +866,12 @@ bot.observe.onCommentsIncomingPayout("-30m", "guest4test", "guest4test1").subscr
 
 #### onComments
 
-This filter triggers when specified authors create new comments on the Hive blockchain.
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
+This filter triggers when specified authors create new comments on the Hive blockchain. Top level posts are ignored by this filter.
 Comments are replies to posts or other comments, distinguished from posts by having a non-empty `parent_author` field in the underlying `comment_operation`.
 The filter monitors all comment creation activity and provides detailed comment data in the callback, including operation details like author, permlink, parent information, and content metadata.
 You can monitor multiple authors simultaneously, making it perfect for content moderation tools, engagement tracking systems, discussion monitoring applications, or building comment notification services.
-The filter works with both live and past data modes, allowing you to track comment activity in real-time or analyze historical discussion patterns.
 It's particularly useful for building social media applications, content curation tools, or automated response systems that need to react to new comment activity.
 
 ``` ts
@@ -864,13 +915,16 @@ bot.observe.onComments("guest4test", "guest4test1").subscribe({
 
 #### onCustomOperation
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers when custom JSON operations with specified operation IDs appear on the Hive blockchain.
 Custom operations are the primary mechanism for decentralized applications (dApps), games, and services to extend Hive's functionality with their own custom logic and data structures.
 The filter monitors both `custom_json_operation` and `custom_operation` types, allowing you to track specific application protocols by their unique identifiers.
-Popular examples include social interactions like "follow" and "reblog", gaming operations like Splinterlands rewards ("sm_claim_reward"), or any other dApp-specific functionality.
+Popular examples include gaming operations like Splinterlands rewards ("sm_claim_reward"), community actions ("community"), or any other dApp-specific functionality.
 You can monitor multiple operation IDs simultaneously, making it perfect for building application-specific monitoring tools, analytics dashboards, bot automation systems, or cross-platform dApp integration services.
-The filter works with both live and past data modes, enabling real-time application monitoring and historical analysis of dApp activity patterns.
 It's essential for developers building on Hive who need to track their own custom operations or monitor activity from other applications in the ecosystem.
+
+**Note:** For social interactions like "follow" and "reblog", use the specialized [`onFollow`](#onfollow) and [`onReblog`](#onreblog) filters instead, which provide more targeted functionality and enhanced data.
 
 ``` ts
 /**
@@ -882,7 +936,7 @@ It's essential for developers building on Hive who need to track their own custo
  * applications building on Hive. Multiple operation IDs can be monitored simultaneously.
  *
  * Filter Function Inputs:
- * - `...ids: Array<string | number>` - Custom operation IDs to monitor (e.g., "follow", "reblog", "sm_claim_reward")
+ * - `...ids: Array<string | number>` - Custom operation IDs to monitor (e.g., "community", "sm_claim_reward")
  *
  * Callback Data:
  * The callback receives data of type {@link ICustomOperationProviderData},
@@ -895,21 +949,20 @@ await bot.start();
 
 console.log("⏳ Watching for custom operations...");
 
-bot.observe.onCustomOperation("follow", "reblog", "sm_claim_reward").subscribe({
+bot.observe.onCustomOperation("community", "sm_claim_reward").subscribe({
   /*
    * This observer will trigger when custom operations with the specified IDs occur.
    * The callback receives data of type {@link ICustomOperationProviderData}, which includes:
    * - `data.customOperations` - Contains custom operations grouped by operation name
    * Each operation contains an array with transaction/operation pairs.
+   *
+   * Note: For "follow" and "reblog" operations, use specialized onFollow() and onReblog() filters instead.
    */
   next(data) {
-    if (data.customOperations.follow)
-      data.customOperations.follow.forEach(({ operation }) => {
-        console.log(`🔧 Follow operation detected: ${operation}`);
+    if (data.customOperations.community)
+      data.customOperations.community.forEach(({ operation }) => {
+        console.log(`🔧 Community operation detected: ${operation}`);
       });
-
-    if (data.customOperations.reblog)
-      console.log(`🔧 Reblog operations detected: ${data.customOperations.reblog.length}`);
 
     if (data.customOperations.sm_claim_reward)
       console.log(`🔧 Splinterlands reward claims detected: ${data.customOperations.sm_claim_reward.length}`);
@@ -920,12 +973,13 @@ bot.observe.onCustomOperation("follow", "reblog", "sm_claim_reward").subscribe({
 
 #### onFollow
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers when specified accounts perform social relationship operations on the Hive blockchain, including following, unfollowing, muting, and blacklisting other accounts.
 The filter monitors custom JSON operations with the "follow" ID, which contain the social graph interaction data that powers Hive's decentralized social networking features.
 It tracks various relationship types through the `what` field in the operation, supporting actions like "blog" (follow), "mute", "blacklist", and their corresponding removal operations.
 These operations are fundamental to Hive's social layer, allowing users to build their feeds, manage unwanted content, and create curated social experiences.
 You can monitor multiple accounts simultaneously, making it perfect for building social analytics tools, relationship tracking dashboards, follower notification systems, or automated social interaction bots.
-The filter works with both live and past data modes, enabling real-time social monitoring and historical analysis of social graph evolution patterns.
 It's essential for applications that need to track social dynamics, build recommendation systems, or provide users with insights about their social network activity.
 
 ``` ts
@@ -970,12 +1024,13 @@ bot.observe.onFollow("guest4test", "guest4test1").subscribe({
 
 #### onMention
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter triggers when specified accounts are mentioned in posts or comments using the standard @username syntax on the Hive blockchain.
 The filter scans the text content of all posts and comments to detect username mentions and match them against your monitored account list.
 It processes both new posts (top-level content) and comments (replies), providing comprehensive mention detection across all content types on the platform.
 The filter is essential for building notification systems, social engagement tools, and automated response applications that need to react when specific users are mentioned in discussions.
 You can monitor multiple accounts simultaneously, making it perfect for community management tools, brand monitoring applications, or personal notification services.
-The filter works with both live and past data modes, allowing you to track mentions in real-time or analyze historical mention patterns and engagement trends.
 It's particularly valuable for social media managers, content creators, and businesses who need to stay informed about when their accounts or brands are being discussed in the Hive community.
 
 ``` ts
@@ -1022,21 +1077,26 @@ bot.observe.onMention("guest4test", "guest4test1").subscribe({
 
 #### onPostsIncomingPayout
 
-This filter triggers when posts by specified authors are approaching their payout window expiration, allowing you to monitor content performance before final reward distribution.
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
+This filter triggers when **top-level posts** (not replies/comments) by specified authors are approaching their payout window expiration, allowing you to monitor content performance before final reward distribution.
 On the Hive blockchain, posts have a 7-day payout window after creation, and this filter detects when they're nearing that critical payout moment.
+The filter specifically monitors top-level posts (content with an empty `parent_author` field), distinguishing them from replies and comments.
 You can specify a relative time offset (like "-30m" for 30 minutes before payout or "-1h" for 1 hour before) to receive notifications at your preferred timing.
 This is particularly useful for content creators, curators, or applications that need to take action before payout finalization - such as last-minute promotion, vote adjustments, or performance analytics.
 You can monitor multiple authors simultaneously, making it perfect for content management dashboards, curation tools, or automated content promotion systems.
-It works with both live and past data modes, allowing you to analyze historical payout patterns or monitor real-time content performance. Remember that you need to collect past operations to access old posts and comments to monitor their payout right after starting the application.
+Remember that you need to collect past operations to access old posts and comments to monitor their payout right after starting the application.
+
+**Note:** For monitoring replies/comments approaching payout, use [`onCommentsIncomingPayout`](#oncommentsincomingpayout) instead.
 
 ``` ts
 /**
  * Category: 👥 Social & Content
- * Demo: onPostsIncomingPayout() — monitor posts near payout window.
+ * Demo: onPostsIncomingPayout() — monitor top-level posts near payout window.
  *
- * This observer triggers when posts by specified authors are approaching their
- * payout window (7 days after creation). Useful for monitoring earnings and
- * content performance before final payout. Multiple authors can be monitored simultaneously.
+ * This observer triggers when top-level posts (not replies/comments) by specified authors are approaching their
+ * payout window (7 days after creation). Useful for monitoring content performance
+ * before final payout. Multiple authors can be monitored simultaneously.
  *
  * Filter Function Inputs:
  * - `relative: string` - Time window specification (e.g., "-1h" for last hour before payout)
@@ -1070,11 +1130,12 @@ bot.observe.onPostsIncomingPayout("-1h", "guest4test", "guest4test1").subscribe(
 
 #### onPosts
 
-This filter triggers when specified authors create new posts on the Hive blockchain.
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
+This filter triggers when specified authors create new posts on the Hive blockchain. Replies (comments) to posts are ignored by this filter.
 Posts are top-level content pieces, distinguished from comments by having an empty `parent_author` field in the underlying `comment_operation`.
 The filter monitors all post creation activity and provides detailed post data in the callback, including operation details like author, permlink, title, body, and content metadata.
 You can monitor multiple authors simultaneously, making it perfect for content aggregation platforms, feed generation systems, blog monitoring applications, or building post notification services.
-The filter works with both live and past data modes, allowing you to track post activity in real-time or analyze historical content publishing patterns.
 It's particularly useful for building social media applications, content curation tools, or automated promotion systems that need to react to new post publications.
 
 ``` ts
@@ -1119,6 +1180,8 @@ bot.observe.onPosts("guest4test", "guest4test1").subscribe({
 ```
 
 #### onReblog
+
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
 This filter triggers when specified accounts reblog (share/repost) content on the Hive blockchain.
 Reblogs are a social sharing mechanism that allows users to reshare posts from other authors to their own feed, helping content reach a wider audience through the social network.
@@ -1169,6 +1232,8 @@ bot.observe.onReblog("guest4test", "guest4test1").subscribe({
 
 #### onVotes
 
+**🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
+
 This filter monitors voting activity on the Hive blockchain, triggering when specified accounts cast votes on posts or comments. It tracks both upvotes and downvotes, providing complete voting operation details including vote weights, target content, and transaction information. The filter supports monitoring multiple voters simultaneously and provides voting data organized by voter account.
 
 The filter captures all vote operations including upvotes, downvotes, and vote deletions (zero weight votes). Each vote operation contains information about the voter, target author/permlink, vote weight, and associated blockchain transaction. This enables comprehensive tracking of content curation activities, voting patterns, and community engagement behaviors.
@@ -1180,9 +1245,8 @@ Key capabilities include:
 - **Complete vote data**: Access to vote weight, target content, voter information, and transaction details
 - **Vote type detection**: Distinguish between upvotes, downvotes, and vote deletions
 - **Manabar consumption tracking**: Monitor voting manabar and downvoting manabar usage
-- **Vote editing support**: Track vote changes on the same content before payout
 
-This filter works with both live blockchain data and historical data modes. It's particularly useful for building content curation dashboards, vote tracking systems, community engagement analytics, and voting behavior analysis tools.
+It's particularly useful for building content curation dashboards, vote tracking systems, community engagement analytics, and voting behavior analysis tools.
 
 ``` ts
 /**
@@ -1226,19 +1290,25 @@ bot.observe.onVotes("guest4test", "guest4test1").subscribe({
 
 ## Providers
 
+**Data Mode Availability:**
+
+- **🟢 Live Mode Only** - These providers require real-time blockchain data and are only available when using `workerbee.observe`
+- **🔵 Live and Past Data Modes** - These providers work with both live data (`workerbee.observe`) and historical data (`workerbee.providePastOperations()`)
+
 Providers are specialized data suppliers that enhance WorkerBee filters by delivering enriched blockchain data directly to your observer callbacks. While filters detect specific events or conditions on the blockchain, providers add contextual data and detailed information about accounts, transactions, blocks, and other blockchain entities.
 
-Providers automatically integrate with filters and deliver their data through the same subscription callback, eliminating the need for separate API calls. This creates a seamless development experience where you can access both event notifications and related data in a single observer.
+Providers automatically integrate with filters and deliver their data through the same subscription callback, eliminating the need for separate API calls. This creates a seamless development experience where you can access both event notifications and related data in a single observer. They also are able to reuse already acquired data by filters if possible and avoid additional queries. What's important to note, they start to work only when filter condition matches.
 
 ### 👤 Account Data Providers
 
 #### provideAccounts
 
-This provider enriches your filter data with comprehensive account information for specified accounts.
+**🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
+
+This provider extends the data passed to specified callback function by comprehensive account information for specified accounts.
 It retrieves detailed account data including balances, voting power, profile metadata, and recovery account.
 The provider automatically fetches current account state data and delivers it alongside your filter results.
 You can specify multiple accounts to monitor simultaneously, making it perfect for portfolio tracking, account management applications, or social media dashboards.
-It works with both live and past data modes, allowing you to access historical account states or monitor real-time account information.
 The provider is essential for applications that need detailed user information, wallet interfaces, or account analysis tools.
 
 ``` ts
@@ -1281,12 +1351,13 @@ bot.observe.onBlock().provideAccounts("guest4test", "guest4test1").subscribe({
 
 #### provideManabarData
 
+**🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
+
 This provider delivers detailed manabar information for specified accounts and manabar types.
 It provides real-time data about account resource usage including current mana levels, last update time, and percentage capacity.
 The provider supports all three manabar types: upvote, downvote, and resource credits (RC).
 Manabar data is crucial for applications that need to manage account resources efficiently or provide users with resource usage insights.
 You can monitor multiple accounts simultaneously, making it perfect for account management tools, automated posting applications, or resource optimization systems.
-The provider works with both live and past data modes, enabling real-time resource monitoring and historical resource usage analysis.
 
 ``` ts
 /**
@@ -1333,12 +1404,13 @@ bot.observe.onBlock().provideManabarData(EManabarType.UPVOTE, "guest4test", "gue
 
 #### provideRcAccounts
 
+**🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
+
 This provider supplies comprehensive resource credit (RC) account information for specified accounts.
 It delivers detailed RC system data including current RC balance, maximum capacity, and last update time.
 The provider gives access to advanced RC metrics that are essential for applications managing blockchain resource consumption.
 Resource credits are fundamental to Hive's bandwidth system, determining how many operations accounts can perform without fees.
 You can monitor multiple accounts simultaneously, making it perfect for account management tools, resource optimization applications, or automated systems that need to track RC usage.
-The provider works with both live and past data modes, enabling real-time resource monitoring and historical resource usage analysis.
 
 ``` ts
 /**
@@ -1383,12 +1455,13 @@ bot.observe.onBlock().provideRcAccounts("guest4test", "guest4test1").subscribe({
 
 #### provideWitnesses
 
+**🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
+
 This provider delivers comprehensive witness information for specified witness accounts.
 It provides detailed witness data including owner, version and block production performance.
 The provider gives access to witness performance metrics, like missed block counts that are essential for monitoring network infrastructure.
 Witnesses are the block producers on the Hive blockchain, and their performance directly affects network security and stability.
 You can monitor multiple witnesses simultaneously, making it perfect for witness monitoring dashboards, network health analysis tools, or voting decision applications.
-The provider works with both live and past data modes, enabling real-time witness monitoring and historical witness performance analysis.
 
 ``` ts
 /**
@@ -1432,12 +1505,13 @@ bot.observe.onBlock().provideWitnesses("guest4test", "guest4test1").subscribe({
 
 #### provideBlockData
 
-This provider delivers comprehensive block information including both block header and full block data.
+**🔵 Live and Past Data Modes** - This provider is available in both live and past data modes.
+
+This provider delivers comprehensive block information including both block header (already collected by onBlock filter) and full block data (like all included transactions).
 It provides detailed block content including all transactions, operations, witness signatures, and block metadata.
 The provider combines block header data (block number, timestamp, witness) with complete block content for comprehensive blockchain monitoring.
 Block data is fundamental for applications that need to process all blockchain activity or analyze transaction patterns.
 The provider automatically delivers block information with your filter results, eliminating the need for separate block API calls.
-It works with both live and past data modes, enabling real-time block processing and historical blockchain analysis.
 
 ``` ts
 /**
@@ -1479,12 +1553,13 @@ bot.observe.onBlock().provideBlockData().subscribe({
 
 #### provideBlockHeaderData
 
+**🔵 Live and Past Data Modes** - This provider is available in both live and past data modes.
+
 This provider supplies essential block header information including block number, timestamp, witness, and basic block metadata.
 It provides lightweight block data that is perfect for applications that need block timing and identification information without the overhead of full block content.
 Block header data includes critical blockchain timing information and witness rotation details that are essential for many blockchain applications.
 The provider delivers header information efficiently, making it ideal for high-frequency monitoring applications or resource-constrained environments.
 It automatically integrates with your filters, providing block context alongside event notifications.
-The provider works with both live and past data modes, enabling real-time block header monitoring and historical blockchain timing analysis.
 
 ``` ts
 /**
@@ -1509,14 +1584,19 @@ await bot.start();
 
 console.log("⏳ Monitoring block headers...");
 
-bot.observe.onBlock().provideBlockHeaderData().subscribe({
+bot.observe.onPosts("guest4test").provideBlockHeaderData().subscribe({
   /*
-   * This observer will trigger on each new block and provide block header data.
+   * This observer will trigger when account guest4test creates a new post and provide block header data.
    * The callback receives essential block timing and identification information
    * without the overhead of full block content processing.
+   * This will allow to get for example the time when the post was created.
    */
   next(data) {
-    console.log(`Block ${data.block.number} by @${data.block.witness} at ${data.block.timestamp}`);
+    data.posts["guest4test"]?.forEach(({ operation }) => {
+      console.log(
+        `New post created: ${operation.author}/${operation.permlink}. Creation date: ${data.block.timestamp.toISOString()}`
+      );
+    });
   },
   error: console.error
 });
@@ -1526,12 +1606,13 @@ bot.observe.onBlock().provideBlockHeaderData().subscribe({
 
 #### provideFeedPriceData
 
+**🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
+
 This provider delivers comprehensive HIVE price feed information including current prices, price history, and statistical price data.
 It provides access to the official witness-published price feeds that determine HIVE-to-HBD conversion rates on the blockchain.
 The provider supplies current median, minimum, and maximum price values along with historical price data for trend analysis.
 Price feed data is essential for financial applications, trading bots, conversion calculators, and economic analysis tools.
 The provider delivers real-time price information alongside your filter results, enabling applications to react to both events and current market conditions.
-It works with both live and past data modes, allowing real-time price monitoring and historical price analysis.
 
 ``` ts
 /**
