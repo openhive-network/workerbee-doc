@@ -29,10 +29,9 @@ default:
         PREVIEW_URL_PATH: "-/mr-$CI_MERGE_REQUEST_IID/"
     - variables:
         # default branch subpath
-        PREVIEW_URL_PATH: "${GITLAB_PAGES_DEFAULT_BRANCH_PATH}"
+        PREVIEW_URL_PATH: ""
   variables:
     PAGES_ENV_NAME: "pages/${CI_COMMIT_REF_SLUG}"
-    GITLAB_PAGES_DEFAULT_BRANCH_PATH: "default/"
     CACHED_PUBLIC_DIR: "${CI_PROJECT_DIR}/public"
     DOC_PATH: "${CACHED_PUBLIC_DIR}/${PREVIEW_URL_PATH}"
     DOC_URL: "${CI_PAGES_URL}/${PREVIEW_URL_PATH}"
@@ -57,7 +56,7 @@ build:
     - job: lint
   script:
     # Replace the base URL in retype.yml with the GitLab Pages URL
-    - sed -i "s#http://localhost:5005#${CI_PAGES_URL}${PREVIEW_URL_PATH}#g" retype.yml
+    - sed -i "s#http://localhost:5005#${DOC_URL}#g" retype.yml
     - pnpm run build
   artifacts:
     paths:
@@ -87,8 +86,6 @@ pages:
     - echo "The site will be deployed to $DOC_URL identified by $PAGES_ENV_NAME"
     - mkdir -p "$DOC_PATH"
     - cp -r .retype/* "$DOC_PATH"
-    # redirect gitlab pages url like https://hive.pages.syncad.com/workerbee-doc/ to https://hive.pages.syncad.com/workerbee-doc/default/
-    - echo "/ /${GITLAB_PAGES_DEFAULT_BRANCH_PATH} 302" > ${CACHED_PUBLIC_DIR}/_redirects
   environment:
     name: "$PAGES_ENV_NAME"
     url: "$DOC_URL"
