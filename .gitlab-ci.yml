@@ -26,13 +26,14 @@ default:
     - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
       variables:
         # subpath to branches content for preview
-        PREVIEW_URL_PATH: "-/mr-$CI_MERGE_REQUEST_IID/"
+        PREVIEW_URL_PATH: "-/${CI_COMMIT_REF_SLUG}/"
     - variables:
         # default branch subpath
-        PREVIEW_URL_PATH: ""
+        PREVIEW_URL_PATH: "${DEFAULT_DOC_PATH}/"
   variables:
     PAGES_ENV_NAME: "pages/${CI_COMMIT_REF_SLUG}"
     CACHED_PUBLIC_DIR: "${CI_PROJECT_DIR}/public"
+    DEFAULT_DOC_PATH: "default"
     DOC_PATH: "${CACHED_PUBLIC_DIR}/${PREVIEW_URL_PATH}"
     DOC_URL: "${CI_PAGES_URL}/${PREVIEW_URL_PATH}"
   before_script:
@@ -57,6 +58,8 @@ build:
   script:
     # Replace the base URL in retype.yml with the GitLab Pages URL
     - sed -i "s#http://localhost:5005#${DOC_URL}#g" retype.yml
+    # Replace the commit hash value to ensure which version of the documentation we are deploying
+    - sed -i "s#commithashvalue#${CI_COMMIT_SHORT_SHA}#g" src/_includes/head.html
     - pnpm run build
   artifacts:
     paths:
@@ -67,6 +70,8 @@ build:
 .deployment_base:
   stage: deploy
   extends: .pnpm_based_job
+  # Also when configuring cache, don't forget to unselect the option "Use separate caches for protected branches"
+  # in CI/CD "General pipelines" project configuration if you want to keep multiple deployments (pages for multiple branches at the same time)
   cache:
     # using cache is the workaround for keeping multiple deployments (pages for multiple branches at the same time)
     # due to GitLab "Parallel Deployments" being a premium feature: https://docs.gitlab.com/user/project/pages/#parallel-deployments
@@ -74,7 +79,7 @@ build:
     paths: [ public ]
   artifacts:
     paths: [ public ]
-  tags:  # has to be a single runner or cache should be shared between multiple runners
+  tags: # has to be a single runner or cache should be shared between multiple runners
     - data-cache-storage
 
 pages:
@@ -84,8 +89,12 @@ pages:
       artifacts: true
   script:
     - echo "The site will be deployed to $DOC_URL identified by $PAGES_ENV_NAME"
+    - rm -rf "$DOC_PATH"
     - mkdir -p "$DOC_PATH"
-    - cp -r .retype/* "$DOC_PATH"
+    - mv .retype/* "$DOC_PATH"
+    # Create redirects for the default branch - for both configurations: unique domains and subpaths
+    - echo "/${CI_PROJECT_NAME} /${CI_PROJECT_NAME}/${DEFAULT_DOC_PATH}/ 302" > "${CACHED_PUBLIC_DIR}/_redirects"
+    - echo "/ /${DEFAULT_DOC_PATH}/ 302" >> "${CACHED_PUBLIC_DIR}/_redirects"
   environment:
     name: "$PAGES_ENV_NAME"
     url: "$DOC_URL"
