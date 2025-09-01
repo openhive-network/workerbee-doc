@@ -46,5 +46,7 @@ footer:
   links:
     - text: License
       link: https://gitlab.syncad.com/hive/workerbee-doc/-/blob/main/LICENSE.md
+    - text: "#commithashvalue"
+      link: "https://gitlab.syncad.com/hive/workerbee-doc/-/blob/commithashvalue/"
 exclude:
   - /static/snippets

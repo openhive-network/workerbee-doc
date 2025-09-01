@@ -59,7 +59,7 @@ build:
     # Replace the base URL in retype.yml with the GitLab Pages URL
     - sed -i "s#http://localhost:5005#${DOC_URL}#g" retype.yml
     # Replace the commit hash value to ensure which version of the documentation we are deploying
-    - sed -i "s#commithashvalue#${CI_COMMIT_SHORT_SHA}#g" src/_includes/head.html
+    - sed -i "s#commithashvalue#${CI_COMMIT_SHORT_SHA}#g" retype.yml
     - pnpm run build
   artifacts:
     paths:
@@ -93,7 +93,7 @@ pages:
     - mkdir -p "$DOC_PATH"
     - mv .retype/* "$DOC_PATH"
     # Create redirects for the default branch - for both configurations: unique domains and subpaths
-    - echo "/${CI_PROJECT_NAME} /${CI_PROJECT_NAME}/${DEFAULT_DOC_PATH}/ 302" > "${CACHED_PUBLIC_DIR}/_redirects"
+    - echo "/${CI_PROJECT_NAME}/ /${CI_PROJECT_NAME}/${DEFAULT_DOC_PATH}/ 302" > "${CACHED_PUBLIC_DIR}/_redirects"
     - echo "/ /${DEFAULT_DOC_PATH}/ 302" >> "${CACHED_PUBLIC_DIR}/_redirects"
   environment:
     name: "$PAGES_ENV_NAME"
