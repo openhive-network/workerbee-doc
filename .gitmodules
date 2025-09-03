@@ -1,0 +1,3 @@
+[submodule "src/static/snippets"]
+	path = src/static/snippets
+	url = ../workerbee-doc-snippets.git
