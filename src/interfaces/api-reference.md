@@ -18,9 +18,9 @@ XXX: Remember to embed snippets with lines after `import` (without preceding JSD
 - **🟢 Live Mode Only** - These filters require real-time blockchain data and are only available when using `workerbee.observe`
 - **🔵 Live and Past Data Modes** - These filters work with both live data (`workerbee.observe`) and historical data (`workerbee.providePastOperations()`)
 
-### 👤 Account Management
+## 👤 Account Management
 
-#### onAccountsFullManabar
+### onAccountsFullManabar
 
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
@@ -70,7 +70,7 @@ bot.observe.onAccountsFullManabar(EManabarType.RC, "guest4test", "guest4test1").
 });
 ```
 
-#### onAccountsManabarPercent
+### onAccountsManabarPercent
 
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
@@ -119,7 +119,7 @@ bot.observe.onAccountsManabarPercent(EManabarType.RC, 90, "guest4test", "guest4t
 });
 ```
 
-#### onAccountsMetadataChange
+### onAccountsMetadataChange
 
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
@@ -160,7 +160,7 @@ bot.observe.onAccountsMetadataChange("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### onImpactedAccounts
+### onImpactedAccounts
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -211,7 +211,7 @@ bot.observe.onImpactedAccounts("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### onNewAccount
+### onNewAccount
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -259,9 +259,9 @@ bot.observe.onNewAccount().subscribe({
 });
 ```
 
-### ⚙️ Blockchain Infrastructure
+## ⚙️ Blockchain Infrastructure
 
-#### onBlockNumber
+### onBlockNumber
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -310,7 +310,7 @@ bot.observe.onBlockNumber(targetBlock).subscribe({
 });
 ```
 
-#### onBlock
+### onBlock
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -356,7 +356,7 @@ bot.observe.onBlock().subscribe({
 });
 ```
 
-#### onTransactionIds
+### onTransactionIds
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -421,9 +421,9 @@ bot.observe.onTransactionIds(id, legacyId).subscribe({
 });
 ```
 
-### 🏦 Financial Operations
+## 🏦 Financial Operations
 
-#### onAccountsBalanceChange
+### onAccountsBalanceChange
 
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
@@ -469,7 +469,7 @@ bot.observe.onAccountsBalanceChange(true, "guest4test", "guest4test1").subscribe
 });
 ```
 
-#### onExchangeTransfer
+### onExchangeTransfer
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -519,7 +519,7 @@ bot.observe.onExchangeTransfer().subscribe({
 });
 ```
 
-#### onFeedPriceChange
+### onFeedPriceChange
 
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
@@ -563,7 +563,7 @@ bot.observe.onFeedPriceChange(5).subscribe({
 });
 ```
 
-#### onFeedPriceNoChange
+### onFeedPriceNoChange
 
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
@@ -606,7 +606,7 @@ bot.observe.onFeedPriceNoChange(24).subscribe({
 });
 ```
 
-#### onInternalMarketOperation
+### onInternalMarketOperation
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -655,7 +655,7 @@ bot.observe.onInternalMarketOperation().subscribe({
 });
 ```
 
-#### onWhaleAlert
+### onWhaleAlert
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -710,9 +710,9 @@ bot.observe.onWhaleAlert(threshold).subscribe({
 });
 ```
 
-### 🔐 Security & Governance
+## 🔐 Security & Governance
 
-#### onAlarm
+### onAlarm
 
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
@@ -763,7 +763,7 @@ bot.observe.onAlarm("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### onWitnessesMissedBlocks
+### onWitnessesMissedBlocks
 
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
@@ -809,9 +809,9 @@ bot.observe.onWitnessesMissedBlocks(1, "guest4test", "guest4test1").subscribe({
 });
 ```
 
-### 👥 Social & Content
+## 👥 Social & Content
 
-#### onCommentsIncomingPayout
+### onCommentsIncomingPayout
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -864,7 +864,7 @@ bot.observe.onCommentsIncomingPayout("-30m", "guest4test", "guest4test1").subscr
 });
 ```
 
-#### onComments
+### onComments
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -913,7 +913,7 @@ bot.observe.onComments("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### onCustomOperation
+### onCustomOperation
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -971,7 +971,7 @@ bot.observe.onCustomOperation("community", "sm_claim_reward").subscribe({
 });
 ```
 
-#### onFollow
+### onFollow
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -1022,7 +1022,7 @@ bot.observe.onFollow("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### onMention
+### onMention
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -1075,7 +1075,7 @@ bot.observe.onMention("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### onPostsIncomingPayout
+### onPostsIncomingPayout
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -1128,7 +1128,7 @@ bot.observe.onPostsIncomingPayout("-1h", "guest4test", "guest4test1").subscribe(
 });
 ```
 
-#### onPosts
+### onPosts
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -1179,7 +1179,7 @@ bot.observe.onPosts("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### onReblog
+### onReblog
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -1230,7 +1230,7 @@ bot.observe.onReblog("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### onVotes
+### onVotes
 
 **🔵 Live and Past Data Modes** - This filter is available in both live and past data modes.
 
@@ -1299,9 +1299,9 @@ Providers are specialized data suppliers that enhance WorkerBee filters by deliv
 
 Providers automatically integrate with filters and deliver their data through the same subscription callback, eliminating the need for separate API calls. This creates a seamless development experience where you can access both event notifications and related data in a single observer. They also are able to reuse already acquired data by filters if possible and avoid additional queries. What's important to note, they start to work only when filter condition matches.
 
-### 👤 Account Data Providers
+## 👤 Account Data Providers
 
-#### provideAccounts
+### provideAccounts
 
 **🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
 
@@ -1349,7 +1349,7 @@ bot.observe.onBlock().provideAccounts("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### provideManabarData
+### provideManabarData
 
 **🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
 
@@ -1402,7 +1402,7 @@ bot.observe.onBlock().provideManabarData(EManabarType.UPVOTE, "guest4test", "gue
 });
 ```
 
-#### provideRcAccounts
+### provideRcAccounts
 
 **🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
 
@@ -1453,7 +1453,7 @@ bot.observe.onBlock().provideRcAccounts("guest4test", "guest4test1").subscribe({
 });
 ```
 
-#### provideWitnesses
+### provideWitnesses
 
 **🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
 
@@ -1501,9 +1501,9 @@ bot.observe.onBlock().provideWitnesses("guest4test", "guest4test1").subscribe({
 });
 ```
 
-### ⚙️ Blockchain Data Providers
+## ⚙️ Blockchain Data Providers
 
-#### provideBlockData
+### provideBlockData
 
 **🔵 Live and Past Data Modes** - This provider is available in both live and past data modes.
 
@@ -1551,7 +1551,7 @@ bot.observe.onBlock().provideBlockData().subscribe({
 });
 ```
 
-#### provideBlockHeaderData
+### provideBlockHeaderData
 
 **🔵 Live and Past Data Modes** - This provider is available in both live and past data modes.
 
@@ -1602,9 +1602,9 @@ bot.observe.onPosts("guest4test").provideBlockHeaderData().subscribe({
 });
 ```
 
-### 🏦 Financial Data Providers
+## 🏦 Financial Data Providers
 
-#### provideFeedPriceData
+### provideFeedPriceData
 
 **🟢 Live Mode Only** - This provider requires real-time blockchain data and is not available in past data mode.
 
