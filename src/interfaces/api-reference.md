@@ -268,8 +268,7 @@ bot.observe.onNewAccount().subscribe({
 This filter triggers when the blockchain reaches a specific block number.
 It is useful for scheduled operations, testing scenarios, or waiting for governance proposals that become active at a particular block.
 The filter takes a single block number parameter and monitors the blockchain until that exact block is produced.
-The filter provides no callback data as it is designed to be a simple notification mechanism - if you need block details, combine it with block providers.
-XXX: Add link to block provider
+The filter provides no callback data as it is designed to be a simple notification mechanism - if you need block details, combine it with [block providers](#provideblockdata).
 
 ``` ts
 /**
@@ -1243,8 +1242,6 @@ Key capabilities include:
 - **Real-time vote monitoring**: Tracks voting activity as it happens on the blockchain
 - **Multi-voter support**: Monitor voting activity from multiple accounts in a single observer
 - **Complete vote data**: Access to vote weight, target content, voter information, and transaction details
-- **Vote type detection**: Distinguish between upvotes, downvotes, and vote deletions
-- **Manabar consumption tracking**: Monitor voting manabar and downvoting manabar usage
 
 It's particularly useful for building content curation dashboards, vote tracking systems, community engagement analytics, and voting behavior analysis tools.
 
