@@ -125,7 +125,7 @@ bot.observe.onAccountsManabarPercent(EManabarType.RC, 90, "guest4test", "guest4t
 
 This filter triggers when any of the specified accounts updates their metadata.
 You can observe multiple accounts in a single observer call.
-XXX: Remember to update description here when this filter will provide some callback data
+This filter provides the account data in the callback when metadata changes occur.
 
 ``` ts
 /**
@@ -430,7 +430,7 @@ This filter triggers when account balances change due to various financial opera
 It monitors all types of balance changes including incoming and outgoing transfers, author/curation rewards, witness rewards, power ups/downs, savings operations, and conversions.
 The filter allows you to specify whether to include internal balance changes through the `includeInternal` parameter.
 You can monitor multiple accounts simultaneously, making it perfect for portfolio tracking, payment processing, or automated financial applications.
-XXX: Update description when callback data will be available
+This filter provides the account data in the callback when balance changes occur.
 
 ``` ts
 /**
@@ -474,7 +474,6 @@ bot.observe.onAccountsBalanceChange(true, "guest4test", "guest4test1").subscribe
 
 This filter triggers when transfers involve known cryptocurrency exchange accounts on the Hive blockchain.
 WorkerBee maintains an internal list of recognized exchange accounts and automatically monitors all transfer operations that either originate from or are directed to these exchanges.
-XXX: `to` is not implemented yet
 This is particularly useful for tracking market movements, analyzing trading patterns, detecting large deposits/withdrawals, or building exchange monitoring applications.
 The filter requires no input parameters as it globally monitors all exchange-related transfers, making it ideal for market analysis and trading bot applications.
 It provides detailed transfer data including amounts, sender/receiver information, and memo fields, allowing you to analyze exchange activity patterns.
