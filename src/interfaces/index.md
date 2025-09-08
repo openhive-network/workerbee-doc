@@ -1,7 +1,7 @@
 ---
 order: -2
 icon: repo
-expanded: false
+expanded: true
 label: Interface Reference
 ---
 

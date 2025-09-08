@@ -13,11 +13,13 @@ Install WorkerBee:
 
 +++ JavaScript
 
+[!ref icon="../static/npm.svg" target="_blank" text="View **WorkerBee** package on npmjs 🡭"](https://npmjs.com/package/@hiveio/workerbee)
+
 ```bash
 pnpm add @hiveio/workerbee
 ```
 
-> You can also use other package managers, such as: `npm` or `yarn`
+> You can also use other package managers, such as: [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#using-a-node-version-manager-to-install-nodejs-and-npm) or [`yarn`](https://yarnpkg.com/getting-started/install)
 
 +++ Python
 
@@ -47,11 +49,11 @@ TBA
 
 ## :building_construction: Core Concepts
 
-### :eyes: Observer Pattern
+### Observer Pattern
 
 WorkerBee uses the Observer pattern, similar to modern reactive libraries. You define **what** you want to observe, and WorkerBee handles **how** to monitor the blockchain.
 
-### :chains: Fluent API
+### Fluent API
 
 Build complex queries using method chaining, e.g.:
 
@@ -72,7 +74,7 @@ TBA
 
 ## :bulb: Key Benefits
 
-### :no_entry_sign: No More Polling Loops
+### No More Polling Loops
 
 Instead of writing endless `while` loops and managing timers, just declare what you want to observe:
 
@@ -95,7 +97,7 @@ TBA
 
 +++
 
-### :shield: Error Handling
+### Error Handling
 
 WorkerBee handles network errors, API limits, and blockchain reorganizations automatically:
 
@@ -119,7 +121,7 @@ TBA
 
 +++
 
-### :arrows_counterclockwise: Flexible Data Sources
+### Flexible Data Sources
 
 Switch between live blockchain data and historical analysis without changing your code:
 
