@@ -49,6 +49,8 @@ The method accepts two parameters:
 
 Both block numbers must be valid blocks that exist on the Hive blockchain. The range is processed sequentially from `startBlock` to `endBlock`.
 
++++ JavaScript
+
 ```typescript:highlight=1
 bot.providePastOperations(startBlock, endBlock)
   .onBlock()
@@ -58,6 +60,12 @@ bot.providePastOperations(startBlock, endBlock)
     }
   })
 ```
+
++++ Python
+
+TBA
+
++++
 
 ### Relative timestamp setup
 
@@ -82,6 +90,8 @@ When using relative timestamps, WorkerBee automatically calculates the block ran
 - **endBlock**: Current head block (latest block on the chain)
 - **startBlock**: Calculated by subtracting the time period from the current block, using Hive's 3-second block production interval
 
++++ JavaScript
+
 ```typescript:highlight=3
 // Remember to await providePastOperations when using relative timestamp.
 // This way, providePastOperations is executed asynchronously because we must make get_dynamic_global_properties API call to get current block data.
@@ -94,6 +104,12 @@ When using relative timestamps, WorkerBee automatically calculates the block ran
   })
 ```
 
++++ Python
+
+TBA
+
++++
+
 !!!warning
 It is preferred to feed the bot with past data only once per WorkerBee instance!
 !!!
@@ -103,6 +119,8 @@ It is preferred to feed the bot with past data only once per WorkerBee instance!
 ### 1. Pattern Analysis
 
 Analyze historical voting patterns, posting behavior, or market trends:
+
++++ JavaScript
 
 ```typescript
 // Analyze whale account's voting patterns over a specific period
@@ -116,9 +134,17 @@ bot.providePastOperations(startBlock, endBlock)
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### 2. Market Trend Analysis
 
 Study historical market movements and trading patterns:
+
++++ JavaScript
 
 ```typescript
 // Analyze 7 days of market activity
@@ -132,9 +158,17 @@ bot.providePastOperations("-7d")
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### 3. Community Growth Monitoring
 
 Track community development over time:
+
++++ JavaScript
 
 ```typescript
 // Monitor account creation and follow patterns
@@ -148,9 +182,17 @@ bot.providePastOperations(startBlock, endBlock)
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### 4. Content Analytics
 
 Analyze posting patterns and engagement:
+
++++ JavaScript
 
 ```typescript
 // Study content creation patterns
@@ -165,9 +207,17 @@ bot.providePastOperations("-7d")
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## Basic Past Data Usage
 
 ### Simple Block Range Query
+
++++ JavaScript
 
 ```typescript
 import WorkerBee from "@hiveio/workerbee";
@@ -190,7 +240,15 @@ bot.providePastOperations(96549390, 96549415)
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### Relative Time Queries
+
++++ JavaScript
 
 ```typescript
 // Process last 7 days of data
@@ -201,6 +259,12 @@ pastQueen.onBlock().subscribe({
   }
 });
 ```
+
++++ Python
+
+TBA
+
++++
 
 ## Technical Architecture Differences
 
@@ -260,6 +324,8 @@ Due to architectural differences, certain types of data are **not available** in
 
 You can seamlessly transition from historical analysis to live monitoring:
 
++++ JavaScript
+
 ```typescript
 import WorkerBee from "@hiveio/workerbee";
 
@@ -312,7 +378,15 @@ bot.observe
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### Complex Historical Analysis
+
++++ JavaScript
 
 ```typescript
 // Multi-dimensional whale activity analysis
@@ -376,3 +450,9 @@ await new Promise<void>((resolve) => {
     });
 });
 ```
+
++++ Python
+
+TBA
+
++++
