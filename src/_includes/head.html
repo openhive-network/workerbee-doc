@@ -1,32 +1,76 @@
 <style>
   /* Custom CSS: https://github.com/retypeapp/retype/discussions/81#discussioncomment-2473238 */
 
-  /* Red colored links for Hive theme */
+  :root {
+    /* oklch values for Hive theme - https://oklch.com/ */
+    --hive-lightness:       0.58;
+    --hive-lightness-hover: 0.48;
+    --hive-chroma:          0.2;
 
-  /* Light theme */
-  .bg-blue-500 {
-    background-color: rgb(227 19 55 / var(--tw-text-opacity)) !important;
-  }
-  .text-blue-500, .md\:text-blue-500, .docs-markdown a:not(.no-link),
-  .docs-markdown a:not(.no-link):hover, .hover\:text-blue-500:hover,
-  .group:hover .group-hover\:text-blue-500 {
-    color: rgb(227 19 55 / var(--tw-text-opacity)) !important;
-  }
-  .border-blue-500 {
-    border-color: rgb(227 19 55 / var(--tw-text-opacity)) !important;
+    --hive-primary:         var(--hive-lightness)       var(--hive-chroma) 24;
+    --hive-primary-hover:   var(--hive-lightness-hover) var(--hive-chroma) 30;
+    --hive-primary-text:    var(--hive-lightness)       var(--hive-chroma) 15;
+
+    --hive-callout-primary: var(--hive-lightness) 0.044 265;
   }
 
-  /* Dark theme */
-  :is(.dark .dark\:bg-blue-400) {
-    background-color: rgb(232 66 94 / var(--tw-text-opacity)) !important;
+  .text-base-500, .text-badge-primary-text, button {
+    color: oklch(var(--hive-primary-text)) !important;
   }
-  :is(.dark .dark\:text-blue-400), :is(.dark .dark\:hover\:text-blue-400:hover),
-  .dark .docs-markdown a:not(.no-link), .dark .docs-markdown a:not(.no-link):hover,
-  :is(.dark .group:hover .dark\:group-hover\:text-blue-400) {
-    color: rgb(232 66 94 / var(--tw-text-opacity)) !important;
+
+  .hover\:border-base-border-hover:hover {
+    border-color: oklch(var(--hive-primary-hover)) !important;
   }
-  :is(.dark .dark\:border-blue-400) {
-    border-color: rgb(232 66 94 / var(--tw-text-opacity)) !important;
+  .border-badge-primary-border {
+    border-color: oklch(var(--hive-primary)  / .2) !important;
+  }
+  .border-gray-400 {
+    border-color: oklch(var(--hive-primary-hover) / .9) !important;
+  }
+
+  .bg-gray-100 {
+    background-color: oklch(var(--hive-primary-hover) / .05) !important;
+  }
+  .bg-gray-200, .hover\:bg-nav-item-bg-hover:hover {
+    background-color: oklch(var(--hive-primary-hover) / .1) !important;
+  }
+
+  .text-nav-item-text-active, .bg-badge-primary, .bg-base-item-bg:hover, .hover\:bg-gray-200:hover, .hover\:bg-base-item-bg-hover:hover,
+  .bg-base-item-bg-hover, button.scheme-menu-item:hover, .scheme-menu-item-active {
+    background-color: oklch(var(--hive-primary) / .1) !important;
+  }
+
+  a.text-toc-text-active, a.hover\:text-toc-text-hover:hover, .text-branding-label-text, .text-nav-item-text-active,
+  nav a, footer a, a.header-anchor-trigger, .retype-markdown a {
+    color: oklch(var(--hive-primary)) !important;
+  }
+
+  .hover\:bg-nav-item-bg-hover:hover > a > span, .dark button:hover,
+  button:hover, nav a:hover, footer a:hover, .retype-markdown a:hover,
+  .retype-markdown div > h1 > .header-anchor-trigger:hover, .retype-markdown div > h2 > .header-anchor-trigger:hover,
+  .retype-markdown div > h3 > .header-anchor-trigger:hover, .retype-markdown div > h4 > .header-anchor-trigger:hover,
+  .retype-markdown div > h5 > .header-anchor-trigger:hover, .retype-markdown div > h6 > .header-anchor-trigger:hover {
+    color: oklch(var(--hive-primary-hover)) !important;
+  }
+
+  .border-tab-border-active {
+    border-color: oklch(var(--hive-primary)) !important;
+  }
+
+  .bg-toc-border-active, .bg-nav-item-border-active {
+    background-color: oklch(var(--hive-primary)) !important;
+  }
+
+  .ring-1 {
+    box-shadow: 0 0 0 1px oklch(var(--hive-primary)) !important;
+  }
+
+  /* Override default callout colors to match secondary one - this is to avoid confusion with error callouts */
+  .text-callout-primary {
+    color: oklch(var(--hive-callout-primary)) !important;
+  }
+  .bg-callout-primary {
+    background-color: oklch(var(--hive-callout-primary)) !important;
   }
 </style>
 <script>
