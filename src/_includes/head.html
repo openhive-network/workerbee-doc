@@ -14,14 +14,14 @@
     --hive-callout-primary: var(--hive-lightness) 0.044 265;
   }
 
-  .text-base-500, .text-badge-primary-text, button {
+  .text-base-500, .text-badge-primary-text, button, .text-badge-info-text {
     color: oklch(var(--hive-primary-text)) !important;
   }
 
   .hover\:border-base-border-hover:hover {
     border-color: oklch(var(--hive-primary-hover)) !important;
   }
-  .border-badge-primary-border {
+  .border-badge-primary-border, .border-badge-info-border {
     border-color: oklch(var(--hive-primary)  / .2) !important;
   }
   .border-gray-400 {
@@ -31,7 +31,7 @@
   .bg-gray-100 {
     background-color: oklch(var(--hive-primary-hover) / .05) !important;
   }
-  .bg-gray-200, .hover\:bg-nav-item-bg-hover:hover {
+  .bg-gray-200, .hover\:bg-nav-item-bg-hover:hover, .bg-badge-info {
     background-color: oklch(var(--hive-primary-hover) / .1) !important;
   }
 

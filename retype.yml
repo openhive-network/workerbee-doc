@@ -45,8 +45,8 @@ footer:
   copyright: "&copy; Copyright {{ year }}. All rights reserved."
   links:
     - text: License
-      link: https://gitlab.syncad.com/hive/wax-doc/-/blob/main/LICENSE.md
+      link: https://gitlab.syncad.com/hive/workerbee-doc/-/blob/main/LICENSE.md
     - text: "Version: commithashvalue"
-      link: "https://gitlab.syncad.com/hive/wax-doc/-/blob/commithashvalue/"
+      link: "https://gitlab.syncad.com/hive/workerbee-doc/-/blob/commithashvalue/"
 exclude:
   - /static/snippets
