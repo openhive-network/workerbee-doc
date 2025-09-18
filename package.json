@@ -13,6 +13,6 @@
   "devDependencies": {
     "husky": "^9.1.7",
     "markdownlint-cli": "^0.45.0",
-    "retypeapp-linux-x64": "^3.6.0"
+    "retypeapp-linux-x64": "^3.11.0"
   }
 }
