@@ -3,7 +3,7 @@ order: -1
 icon: home
 ---
 
-![](./static/ai-bee.png){.rounded-lg width="300"}
+![](./static/ai-bee.webp){.rounded-lg width="300"}
 
 # Intro to WorkerBee library
 
