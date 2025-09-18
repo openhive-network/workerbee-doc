@@ -114,3 +114,13 @@ TBA
 +++
 
 Setting `apiTimeout` to `0` disables the timeout, which can be useful for long-running requests or low-quality networks.
+
+## :ringed_planet: Wax chain usage
+
+As shown in the [WorkerBee Config Interface](#workerbee-config-interface), you can provide an explicit chain that will be used for performing all API calls and data transformations. The Wax Chain instance is also accessible via the `chain` property on the WorkerBee instance.
+
+If an explicit chain is not provided (which is optional), a default chain instance will be created when the `start` method is called.
+
+!!!warning
+Remember that before starting the bot, if no explicit chain was provided, the `chain` property will be undefined.
+!!!
