@@ -34,6 +34,8 @@ Learn proven patterns and best practices for building robust WorkerBee applicati
 
 Comprehensive content creator monitoring that tracks all social activities.
 
++++ JavaScript
+
 ```typescript
 // Content Creator Dashboard - monitors all creator activities
 bot.observe.onPosts("creator")
@@ -59,9 +61,17 @@ bot.observe.onPosts("creator")
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### Content Engagement Tracker
 
 Monitor brand mentions and content interactions for marketing purposes.
+
++++ JavaScript
 
 ```typescript
 // Content Engagement Tracker - tracks brand engagement
@@ -84,6 +94,12 @@ bot.observe.onMention("brand")
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## 🏦 Financial Operations
 
 **Use Cases:**
@@ -105,6 +121,8 @@ bot.observe.onMention("brand")
 ### Market Movement Detector
 
 Monitor significant market movements and financial activities.
+
++++ JavaScript
 
 ```typescript
 // Market Movement Detector - detects significant market changes
@@ -131,9 +149,17 @@ bot.observe.onWhaleAlert(threshold)
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### Investment Portfolio Monitor
 
 Monitor investment portfolios and account activities for financial tracking.
+
++++ JavaScript
 
 ```typescript
 // Investment Portfolio Monitor - tracks portfolio activities
@@ -156,6 +182,12 @@ bot.observe.onAccountsBalanceChange(true, "investor1", "investor2")
     }
   });
 ```
+
++++ Python
+
+TBA
+
++++
 
 ## 👤 Account Management
 
@@ -183,6 +215,8 @@ bot.observe.onAccountsBalanceChange(true, "investor1", "investor2")
 
 Comprehensive account management for monitoring multiple accounts across all activities.
 
++++ JavaScript
+
 ```typescript
 // Multi-Account Dashboard - monitors comprehensive account activities
 bot.observe.onAccountsBalanceChange(true, "account1", "account2")
@@ -209,9 +243,17 @@ bot.observe.onAccountsBalanceChange(true, "account1", "account2")
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### Account Resource Optimizer
 
 Optimize manabar usage across accounts for maximum efficiency and prevent resource waste.
+
++++ JavaScript
 
 ```typescript
 // Account Resource Optimizer - prevents mana waste and optimizes usage
@@ -245,6 +287,12 @@ bot.observe.onAccountsFullManabar(EManabarType.UPVOTE, "curator1", "curator2")
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ## 🔐 Security & Governance
 
 **Use Cases:**
@@ -268,6 +316,8 @@ bot.observe.onAccountsFullManabar(EManabarType.UPVOTE, "curator1", "curator2")
 
 Monitor account health indicators and security events.
 
++++ JavaScript
+
 ```typescript
 // Account Security Monitor - monitors account security
 bot.observe.onAlarm("account")
@@ -287,9 +337,17 @@ bot.observe.onAlarm("account")
   });
 ```
 
++++ Python
+
+TBA
+
++++
+
 ### Resource Management Bot
 
 Optimize engagement timing based on resource availability.
+
++++ JavaScript
 
 ```typescript
 // Resource Management Bot - optimizes resource usage
@@ -311,6 +369,12 @@ bot.observe.onAccountsManabarPercent(90, EManabarType.UPVOTE, "curator")
     }
   });
 ```
+
++++ Python
+
+TBA
+
++++
 
 ## ⚙️ Blockchain Infrastructure
 
@@ -338,6 +402,8 @@ bot.observe.onAccountsManabarPercent(90, EManabarType.UPVOTE, "curator")
 
 Monitor witness performance and blockchain infrastructure health.
 
++++ JavaScript
+
 ```typescript
 // Witness Performance Monitor - monitors witness reliability
 bot.observe.onWitnessesMissedBlocks(5, "witness1", "witness2")
@@ -357,3 +423,9 @@ bot.observe.onWitnessesMissedBlocks(5, "witness1", "witness2")
     }
   });
 ```
+
++++ Python
+
+TBA
+
++++
