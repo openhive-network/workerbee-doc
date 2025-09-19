@@ -11,9 +11,11 @@ Filters are the core of WorkerBee's event system. They define **when** your obse
 
 Filters monitor the blockchain for specific events and trigger your callbacks when conditions are met. They run concurrently and use smart caching to minimize API calls.
 
+Below you can find a diagram presenting the set of predefined filter categories:
+
 ![WorkerBee filter categories](../../static/wb-categories.png){.rounded-lg}
 
-### :zap: Basic Filter Usage
+### Basic Filter Usage
 
 +++ JavaScript
 
@@ -39,3 +41,154 @@ bot.observe
 TBA
 
 +++
+
+## :link: Logical Operators
+
+WorkerBee supports powerful logical operators to combine multiple filter conditions using `AND` and `OR` operations.
+
+### AND Operator (Explicit)
+
+The **AND** operator requires **ALL** specified conditions to be met simultaneously. Use the explicit `.and` method to combine filters.
+
++++ JavaScript
+
+```typescript:highlight=3
+// Both conditions must be true in the same block
+bot.observe
+  .onPosts("alice").and.onVotes("bob")
+  .subscribe({
+    next: (data) => {
+      console.log("Alice posted AND Bob voted in the same block!", data);
+    }
+  });
+```
+
++++ Python
+
+TBA
+
++++
+
+### OR Operator (Implicit & Explicit)
+
+The **OR** operator triggers when **ANY** of the specified conditions is met.
+
+#### Implicit OR (Multiple accounts)
+
+When you pass multiple accounts to a single filter method, WorkerBee automatically applies OR logic between them:
+
++++ JavaScript
+
+```typescript:highlight=3
+// Triggers when alice OR bob creates a post
+bot.observe
+  .onPosts("alice").onPosts("bob")
+  .subscribe({
+    next: (data) => {
+      console.log("Either Alice or Bob created a post!", data);
+    }
+  });
+```
+
++++ Python
+
+TBA
+
++++
+
+#### Explicit OR (Different filter types)
+
+Use the explicit `.or` method to combine different types of filters:
+
++++ JavaScript
+
+```typescript:highlight=3
+// Triggers when alice posts OR bob comments
+bot.observe
+  .onPosts("alice").or.onComments("bob")
+  .subscribe({
+    next: (data) => {
+      console.log("Alice posted OR Bob commented!", data);
+    }
+  });
+```
+
++++ Python
+
+TBA
+
++++
+
+## :scales: Operator Precedence
+
+!!!warning
+**AND takes precedence over OR** - this is crucial for understanding complex filter combinations.
+!!!
+
+### How Precedence Works
+
+WorkerBee processes filters by grouping OR operations first, then combining these groups with AND logic:
+
++++ JavaScript
+
+```typescript
+// This creates: (alice posts OR bob posts) AND (charlie votes)
+bot.observe
+  .onPosts("alice").onPosts("bob")  // Implicit OR
+  .and.onVotes("charlie") // new group
+  .subscribe({
+    next: (data) => {
+      console.log("(Alice OR Bob posted) AND Charlie voted!", data);
+    }
+  });
+```
+
++++ Python
+
+TBA
+
++++
+
+### Complex Combinations
+
+When chaining multiple AND operations, each `.and` creates a new group:
+
++++ JavaScript
+
+```typescript
+// This creates: (alice posts) AND (bob votes) AND (charlie comments)
+bot.observe
+  .onPosts("alice")
+  .and.onVotes("bob") // new group
+  .and.onComments("charlie") // new group
+  .subscribe({
+    next: (data) => {
+      console.log("All three conditions must happen in the same block!", data);
+    }
+  });
+
+// This creates: (alice posts OR bob posts) AND (charlie votes OR dave comments)
+bot.observe
+  .onPosts("alice").onPosts("bob")  // Implicit OR
+  .and.onVotes("charlie") // new group
+  .or.onComments("dave")
+  .subscribe({
+    next: (data) => {
+      console.log("(Alice OR Bob posted) AND (Charlie voted OR Dave commented)!", data);
+    }
+  });
+```
+
++++ Python
+
+TBA
+
++++
+
+---
+
+## :books: Complete Reference
+
+For comprehensive examples of all available filters, check out the complete API reference:
+
+[!ref target="_blank" text="Browse All Filter Examples in API Reference"](/interfaces/api-reference/#filters)
