@@ -7,8 +7,6 @@ icon: organization
 
 WorkerBee is built on a sophisticated multi-layered architecture that ensures high performance, reliability, and ease of use. Understanding this architecture helps you leverage WorkerBee's full potential.
 
-TODO: Adjust this section and fix wrong information
-
 ## :mag: Architectural Overview
 
 ![WorkerBee execution loop cycle](../static/wb-cycle.png){.rounded-lg}
@@ -17,7 +15,7 @@ TODO: Adjust this section and fix wrong information
 
 The **Data Evaluation Context** is WorkerBee's central nervous system. It orchestrates all data flow and provides:
 
-### :gear: Dependency Injection
+### Dependency Injection
 
 The DEC automatically resolves dependencies between collectors, ensuring the right data sources are available when needed:
 
@@ -35,7 +33,7 @@ workerbee.observe
 // - DynamicGlobalPropertiesCollector (dependency of BlockCollector)
 ```
 
-### :repeat: Smart Caching System
+### Smart Caching System
 
 Within each evaluation cycle, the DEC maintains a shared cache that dramatically reduces API calls:
 
@@ -50,7 +48,7 @@ workerbee.observe
 // Result: 1 API call instead of 3! 🚀
 ```
 
-### :hourglass_flowing_sand: Cycle Management
+### Cycle Management
 
 The DEC manages evaluation cycles intelligently:
 
@@ -61,7 +59,7 @@ The DEC manages evaluation cycles intelligently:
 
 Filters evaluate blockchain conditions and determine when your observers should be triggered.
 
-### :zap: Parallel Execution
+### Parallel Execution
 
 All filters run concurrently for maximum performance:
 
@@ -73,7 +71,7 @@ workerbee.observe
   .subscribe(/* ... */);
 ```
 
-### :fast_forward: Short Circuit Evaluation
+### Short Circuit Evaluation
 
 When any filter matches, WorkerBee uses short-circuit evaluation to stop unnecessary processing:
 
@@ -91,7 +89,7 @@ workerbee.observe
 
 Providers gather and transform data for your observers, running only when filters pass.
 
-### :package: Data Transformation
+### Data Transformation
 
 Providers normalize raw blockchain data into WorkerBee's clean API:
 
@@ -125,7 +123,7 @@ Providers normalize raw blockchain data into WorkerBee's clean API:
 }
 ```
 
-### :arrows_counterclockwise: Concurrent Processing
+### Concurrent Processing
 
 Like filters, providers run in parallel:
 
@@ -141,6 +139,24 @@ workerbee.observe
 ## :shopping_trolley: Collectors Layer
 
 Collectors are the data acquisition layer, responsible for fetching information from various sources.
+
+### Dependency Resolution
+
+Collectors can depend on each other, and the DEC resolves these dependencies automatically:
+
+```typescript
+// BlockHeaderCollector depends on DgpoCollector
+workerbee.observe
+  .onBlock()
+  .subscribe(/* ... */);
+// DEC injects BlockCollector automatically
+```
+
+### Overriding Collectors
+
+One of WorkerBee's powerful features is the ability to override multiple collectors using only one collector when it can retrieve all necessary data e.g. from a single API call. This happens automatically via the DEC.
+
+The best example is the `HistoryDataFactory`, which uses only one API call to fetch all required data for historical analysis of block headers, block content and dynamic global properties state.
 
 ## :arrows_clockwise: Data Flow Example
 
@@ -195,43 +211,52 @@ workerbee.observe
 
 ## :chart_with_upwards_trend: Performance Optimizations
 
-### :memo: Caching Strategy
+### Caching Strategy
 
 - **Per-Cycle Caching**: Data is cached only within each evaluation cycle
 - **Atomic Snapshots**: All components see consistent blockchain state
 - **Memory Efficient**: Cache is cleared between cycles
 
-### :rocket: Concurrency Benefits
+### Concurrency Benefits
 
 - **Filter Parallelism**: All conditions evaluated simultaneously
 - **Provider Parallelism**: Data transformation happens concurrently
 - **Short-Circuit Logic**: Unnecessary work is cancelled early
 
-### :dart: Smart Resource Management
+### Smart Resource Management
 
 - **On-Demand Collection**: Data is only fetched when actually needed
 - **Dependency Optimization**: Shared dependencies are resolved once
-- **API Call Reduction**: Up to 50% fewer API calls in complex scenarios
+- **API Call Reduction**: Up to 50% fewer API calls in complex scenarios:
+
+| &nbsp; | WorkerBee without DEC Cache | WorkerBee with DEC Cache | Naive implementation |
+|:------------------ |:------------:|:-------------------:|:---:|
+| API Calls per cycle **\***  |      6       |         **3**     | 10        |
+| Network Latency             |    500ms     |       **250ms**   | 830ms     |
+| Throughput                  |      –       |       **+2×**     | -0.7x     |
+| Node Load                   |     High     |       **Low**     | Very High |
+
+**\*** - A Number of calls calculated based on the scenario of operation filter, 3 accounts filter and operation & account provider
 
 ## :bulb: Architecture Benefits
 
-### :muscle: Separation of Concerns
+### Separation of Concerns
 
 Each layer has a single responsibility, making the system maintainable and testable.
 
-### :electric_plug: Loose Coupling
+### Loose Coupling
 
 Components communicate through well-defined interfaces, allowing easy substitution.
 
-### :chart_with_upwards_trend: High Performance
+### High Performance
 
 Concurrent execution and intelligent caching provide optimal performance.
 
-### :gear: Flexibility
+### Flexibility
 
 The layered architecture supports multiple data sources and custom extensions.
 
-### :test_tube: Testability
+### Testability
 
 Each component can be tested in isolation with dependency injection.
 

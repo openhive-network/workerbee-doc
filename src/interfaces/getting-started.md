@@ -29,6 +29,8 @@ import { WorkerBee } from '@hiveio/workerbee';
 const bot = new WorkerBee();
 
 await bot.start();
+
+// place your filtering conditions here
 ```
 
 ## :building_construction: Core Concepts
