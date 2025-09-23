@@ -70,11 +70,4 @@ Learn the basics of WorkerBee, installation, and your first blockchain observer.
 - **Error Resilience**: Automatic retry and failover handling
 - **Performance**: Up to 50% fewer API calls through intelligent caching
 
-### For DevOps Engineers
-
-- **Environment Flexibility**: Easy configuration for dev/staging/production
-- **Resource Efficiency**: Optimized for both high-throughput and low-resource scenarios
-- **Monitoring Ready**: Built-in metrics and debugging capabilities
-- **Graceful Degradation**: Circuit breakers and backoff strategies
-
 Start your blockchain application journey with WorkerBee today! :bee:
