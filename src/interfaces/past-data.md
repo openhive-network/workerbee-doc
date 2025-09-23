@@ -268,32 +268,9 @@ TBA
 
 ## Technical Architecture Differences
 
-### Collector Factories
-
-WorkerBee uses different factory patterns for live and past data. The mediator automatically switches between these factories without user interaction, preserving the internal application state. This seamless transition is possible thanks to the factories' extend functionality - each factory can extend itself with state from other factories.
-
-#### JsonRpcFactory (Live Data)
-
-The `JsonRpcFactory` provides a comprehensive set of collectors for real-time data:
-
-- **AccountCollector**: Real-time account information
-- **FeedPriceCollector**: Current feed price data
-- **WitnessCollector**: Witness information and schedules
-- **RcAccountCollector**: Resource Credit account data
-- **ManabarCollector**: Live manabar calculations
-
-#### HistoryDataFactory (Past Data)
-
-The `HistoryDataFactory` uses a more limited set optimized for historical analysis:
-
-- **BlockCollector**: Historical block data via `get_block_range`
-- **DynamicGlobalPropertiesCollector**: Chain state at specific points
-- **ImpactedAccountCollector**: Accounts affected by operations
-- **OperationCollector**: Historical operations from blocks
-
 ### Data Collection Limitations
 
-Due to architectural differences, certain types of data are **not available** in past data mode:
+Due to architectural differences between live and past data modes, certain types of data are **not available** in past data mode:
 
 #### Unavailable in Past Data Mode
 

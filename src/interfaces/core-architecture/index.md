@@ -357,3 +357,60 @@ The layered architecture supports multiple data sources and custom extensions.
 Each component can be tested in isolation with dependency injection.
 
 This architecture ensures that WorkerBee can scale from simple use cases to complex enterprise applications while maintaining excellent performance and developer experience.
+
+## :factory: Collector Factories
+
+WorkerBee uses different factory patterns for live and past data. The mediator automatically switches between these factories without user interaction, preserving the internal application state. This seamless transition is possible thanks to the factories' extend functionality - each factory can extend itself with state from other factories.
+
+### JsonRpcFactory (Live Data)
+
+The `JsonRpcFactory` provides a comprehensive set of collectors for real-time data:
+
+- **AccountCollector**: Real-time account information
+- **FeedPriceCollector**: Current feed price data
+- **WitnessCollector**: Witness information and schedules
+- **RcAccountCollector**: Resource Credit account data
+- **ManabarCollector**: Live manabar calculations
+
+### HistoryDataFactory (Past Data)
+
+The `HistoryDataFactory` uses a more limited set optimized for historical analysis:
+
+- **BlockCollector**: Historical block data via `get_block_range`
+- **DynamicGlobalPropertiesCollector**: Chain state at specific points
+- **ImpactedAccountCollector**: Accounts affected by operations
+- **OperationCollector**: Historical operations from blocks
+
+### Factory Switching
+
+The automatic factory switching allows you to seamlessly transition from historical analysis to live monitoring:
+
++++ JavaScript
+
+```typescript
+// First, analyze historical data
+bot.providePastOperations(startBlock, endBlock)
+  .onPosts("alice")
+  .subscribe({
+    next(data) {
+      // Process historical data using HistoryDataFactory
+    },
+    complete() {
+      // Historical analysis complete, now switch to live mode
+      bot.observe
+        .onPosts("alice")
+        .subscribe({
+          next(data) {
+            // Process live data using JsonRpcFactory
+            // Historical context is preserved!
+          }
+        });
+    }
+  });
+```
+
++++ Python
+
+TBA
+
++++
