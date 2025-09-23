@@ -11,7 +11,7 @@ Data Providers are WorkerBee's powerful data transformation layer that intellige
 
 Providers transform raw blockchain data into structured TypeScript objects, running concurrently with filters and automatically benefiting from WorkerBee's advanced caching system. They provide rich contextual data that complements the events detected by filters.
 
-![Data flow diagram showing how providers enhance filter events with contextual blockchain data](../../static/wb-cycle.png){.rounded-lg}
+![Data flow diagram showing how providers enhance filter events with contextual blockchain data](../static/wb-cycle.png){.rounded-lg}
 
 ### Basic Provider Usage
 
@@ -352,4 +352,4 @@ This example demonstrates:
 
 For comprehensive examples of all available providers, check out the complete API reference:
 
-[!ref target="_blank" text="Browse All Provider Examples in API Reference"](/interfaces/api-reference/#providers)
+[!ref text="Browse All Provider Examples in API Reference"](/interfaces/api-reference/#providers)

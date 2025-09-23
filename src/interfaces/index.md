@@ -29,7 +29,6 @@ Learn the basics of WorkerBee, installation, and your first blockchain observer.
 
 1. [Data Providers](./providers/) - Working with blockchain data
 2. [Common Patterns](./patterns/) - Best practices and reusable solutions
-3. [Troubleshooting](./troubleshooting/) - Debugging and common issues
 
 ### Advanced
 

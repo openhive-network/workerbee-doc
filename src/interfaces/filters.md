@@ -13,7 +13,7 @@ Filters monitor the blockchain for specific events and trigger your callbacks wh
 
 Below you can find a diagram presenting the set of predefined filter categories:
 
-![WorkerBee filter categories](../../static/wb-categories.png){.rounded-lg}
+![WorkerBee filter categories](../static/wb-categories.png){.rounded-lg}
 
 ### Basic Filter Usage
 
@@ -143,4 +143,4 @@ bot.observe
 
 For comprehensive examples of all available filters, check out the complete API reference:
 
-[!ref target="_blank" text="Browse All Filter Examples in API Reference"](/interfaces/api-reference/#filters)
+[!ref text="Browse All Filter Examples in API Reference"](/interfaces/api-reference/#filters)

@@ -28,7 +28,7 @@ import { WorkerBee } from '@hiveio/workerbee';
 
 const bot = new WorkerBee();
 
-bot.start();
+await bot.start();
 ```
 
 ## :building_construction: Core Concepts

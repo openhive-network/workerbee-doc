@@ -11,7 +11,7 @@ TODO: Adjust this section and fix wrong information
 
 ## :mag: Architectural Overview
 
-![WorkerBee execution loop cycle](../../static/wb-cycle.png){.rounded-lg}
+![WorkerBee execution loop cycle](../static/wb-cycle.png){.rounded-lg}
 
 ## :robot_face: Data Evaluation Context (DEC)
 
@@ -85,7 +85,7 @@ workerbee.observe
   .subscribe(/* ... */);
 ```
 
-![](../../static/wb-gantt-parallel.png){.rounded-lg}
+![](../static/wb-gantt-parallel.png){.rounded-lg}
 
 ## :truck: Providers Layer
 
