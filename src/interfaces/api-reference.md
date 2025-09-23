@@ -300,7 +300,31 @@ TBA
 **🟢 Live Mode Only** - This filter requires real-time blockchain data and is not available in past data mode.
 
 This filter triggers when monitored accounts experience security or governance-related situations that require attention.
-It detects five specific alarm types: legacy recovery account configuration (accounts still using "steem" as recovery account from old blockchain), expired governance votes (accounts that haven't participated in governance for extended periods), upcoming governance vote expiration (within one month), active recovery account changes (during the 30-day waiting period), and accounts that have declined their voting rights.
+
+#### Supported Alarm Types
+
+The `onAlarm` filter detects the following five specific alarm types:
+
+1. **Legacy Recovery Account Configuration (`LEGACY_RECOVERY_ACCOUNT_SET`)**
+   - Accounts still using "steem" as recovery account from the old blockchain
+   - Indicates outdated security configuration that should be updated
+
+2. **Governance Vote Expiration Soon (`GOVERNANCE_VOTE_EXPIRATION_SOON`)**
+   - Governance votes expiring within one month
+   - Allows proactive governance participation management
+
+3. **Governance Vote Expired (`GOVERNANCE_VOTE_EXPIRED`)**
+   - Accounts that haven't participated in governance for extended periods
+   - Indicates accounts with expired or missing governance votes
+
+4. **Recovery Account Change in Progress (`RECOVERY_ACCOUNT_IS_CHANGING`)**
+   - Active recovery account changes during the 30-day waiting period
+   - Critical security event requiring monitoring
+
+5. **Declining Voting Rights (`DECLINING_VOTING_RIGHTS`)**
+   - Accounts that have declined their voting rights
+   - Important for tracking account voting status changes
+
 The filter is essential for account security monitoring, governance participation tracking, and detecting potentially compromised or misconfigured accounts.
 You can monitor multiple accounts simultaneously, making it perfect for wallet applications, account management tools, or security monitoring systems.
 
