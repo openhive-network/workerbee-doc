@@ -65,6 +65,17 @@ TBA
 You can find a full list of Hive API endpoints in the [official Hive documentation](https://developers.hive.io/quickstart/#quickstart-hive-full-nodes)
 and then choose the one that best fits your needs:
 
+!!!warning Consensus Node Requirements
+WorkerBee with standard filters requires connection to a **consensus node** (full node) for optimal functionality. Consensus nodes provide:
+
+- Complete blockchain history and block data access
+- Real-time streaming of all operations and transactions
+- Full account state and balance information
+- Historical data for analysis and monitoring
+
+Light API nodes may have limited functionality with WorkerBee filters, particularly those monitoring blockchain infrastructure, account changes, or requiring historical data access.
+!!!
+
 +++ JavaScript
 
 ```typescript:highlight="5-7"
@@ -73,7 +84,7 @@ import { WorkerBee } from "@hiveio/workerbee";
 // Choose based on your location and requirements
 const bot = new WorkerBee({
   chainOptions: {
-    apiEndpoint: 'https://api.openhive.network'
+    apiEndpoint: 'https://api.openhive.network' // Consensus node
   }
 });
 
@@ -85,6 +96,18 @@ await bot.start();
 TBA
 
 +++
+
+### Recommended Consensus Nodes
+
+The following public endpoints provide full consensus node functionality:
+
+- `https://api.hive.blog` - Primary Hive API (consensus node)
+- `https://api.openhive.network` - OpenHive network (consensus node)  
+- `https://anyx.io` - Community consensus node
+- `https://rpc.ausbit.dev` - Australian consensus node
+- `https://api.hive.blue` - Consensus node with high availability
+
+Choose an endpoint geographically close to your application for better performance.
 
 ## :clock3: Timing Configuration
 
