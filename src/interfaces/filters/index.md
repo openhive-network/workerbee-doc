@@ -17,8 +17,6 @@ Below you can find a diagram presenting the set of predefined filter categories:
 
 ### Basic Filter Usage
 
-+++ JavaScript
-
 ```typescript:highlight="9"
 import { WorkerBee } from '@hiveio/workerbee';
 
@@ -36,12 +34,6 @@ bot.observe
   });
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :link: Logical Operators
 
 WorkerBee supports powerful logical operators to combine multiple filter conditions using `AND` and `OR` operations.
@@ -49,8 +41,6 @@ WorkerBee supports powerful logical operators to combine multiple filter conditi
 ### AND Operator (Explicit)
 
 The **AND** operator requires **ALL** specified conditions to be met simultaneously. Use the explicit `.and` method to combine filters.
-
-+++ JavaScript
 
 ```typescript:highlight=3
 // Both conditions must be true in the same block
@@ -63,12 +53,6 @@ bot.observe
   });
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ### OR Operator (Implicit & Explicit)
 
 The **OR** operator triggers when **ANY** of the specified conditions is met.
@@ -76,8 +60,6 @@ The **OR** operator triggers when **ANY** of the specified conditions is met.
 #### Implicit OR (Multiple accounts)
 
 When you pass multiple accounts to a single filter method, WorkerBee automatically applies OR logic between them:
-
-+++ JavaScript
 
 ```typescript:highlight=3
 // Triggers when alice OR bob creates a post
@@ -90,17 +72,9 @@ bot.observe
   });
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 #### Explicit OR (Different filter types)
 
 Use the explicit `.or` method to combine different types of filters:
-
-+++ JavaScript
 
 ```typescript:highlight=3
 // Triggers when alice posts OR bob comments
@@ -113,12 +87,6 @@ bot.observe
   });
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :scales: Operator Precedence
 
 !!!warning
@@ -128,8 +96,6 @@ TBA
 ### How Precedence Works
 
 WorkerBee processes filters by grouping OR operations first, then combining these groups with AND logic:
-
-+++ JavaScript
 
 ```typescript
 // This creates: (alice posts OR bob posts) AND (charlie votes)
@@ -143,17 +109,9 @@ bot.observe
   });
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ### Complex Combinations
 
 When chaining multiple AND operations, each `.and` creates a new group:
-
-+++ JavaScript
 
 ```typescript
 // This creates: (alice posts) AND (bob votes) AND (charlie comments)
@@ -178,12 +136,6 @@ bot.observe
     }
   });
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 ---
 

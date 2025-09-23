@@ -27,15 +27,7 @@ The monitored manabar type is specified as the first parameter and can be one of
 The filter provides manabar information for each monitored account in the callback data.
 When observing multiple accounts, remember to check if manabar data is available for the specific account.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onAccountsFullManabar.ts" language="typescript" range="17-38" title="Test it yourself: [src/typescript/api-reference/filters/onAccountsFullManabar.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonAccountsFullManabar.ts&startScript=test-api-reference-filters-onAccountsFullManabar)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onAccountsManabarPercent
 
@@ -44,15 +36,7 @@ TBA
 This filter works similarly to [`onAccountsFullManabar`](#onaccountsfullmanabar), but allows you to specify a custom manabar percentage threshold.
 It provides the account's manabar data in the callback.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onAccountsManabarPercent.ts" language="typescript" range="18-39" title="Test it yourself: [src/typescript/api-reference/filters/onAccountsManabarPercent.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonAccountsManabarPercent.ts&startScript=test-api-reference-filters-onAccountsManabarPercent)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onAccountsMetadataChange
 
@@ -62,15 +46,7 @@ This filter triggers when any of the specified accounts updates their metadata.
 You can observe multiple accounts in a single observer call.
 This filter provides the account data in the callback when metadata changes occur.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onAccountsMetadataChange.ts" language="typescript" range="13-32" title="Test it yourself: [src/typescript/api-reference/filters/onAccountsMetadataChange.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonAccountsMetadataChange.ts&startScript=test-api-reference-filters-onAccountsMetadataChange)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onImpactedAccounts
 
@@ -81,15 +57,7 @@ also when the account is just referenced by operation that has been authorized b
 You can monitor multiple accounts in both live and past data modes.
 Remember to check if data for a specific account actually exists when observing multiple accounts.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onImpactedAccounts.ts" language="typescript" range="17-39" title="Test it yourself: [src/typescript/api-reference/filters/onImpactedAccounts.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonImpactedAccounts.ts&startScript=test-api-reference-filters-onImpactedAccounts)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onNewAccount
 
@@ -100,15 +68,7 @@ It monitors three types of account creation operations: `account_create_operatio
 The filter requires no input parameters as it monitors all new account creations globally.
 The callback data includes detailed information about each newly created account, including the account name, creator, authorities, and metadata.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onNewAccount.ts" language="typescript" range="16-36" title="Test it yourself: [src/typescript/api-reference/filters/onNewAccount.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonNewAccount.ts&startScript=test-api-reference-filters-onNewAccount)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ## ⚙️ Blockchain Infrastructure
 
@@ -121,15 +81,7 @@ It is useful for scheduled operations, testing scenarios, or waiting for governa
 The filter takes a single block number parameter and monitors the blockchain until that exact block is produced.
 The filter provides no callback data as it is designed to be a simple notification mechanism - if you need block details, combine it with [block providers](#provideblockdata).
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onBlockNumber.ts" language="typescript" range="13-36" title="Test it yourself: [src/typescript/api-reference/filters/onBlockNumber.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonBlockNumber.ts&startScript=test-api-reference-filters-onBlockNumber)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onBlock
 
@@ -141,15 +93,7 @@ It provides comprehensive block header data in the callback, making it perfect f
 The filter requires no input parameters.
 When processing past data, it will trigger for each block in the specified range, allowing you to replay blockchain history.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onBlock.ts" language="typescript" range="16-33" title="Test it yourself: [src/typescript/api-reference/filters/onBlock.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonBlock.ts&startScript=test-api-reference-filters-onBlock)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onTransactionIds
 
@@ -160,15 +104,7 @@ It is particularly useful for tracking the inclusion of specific transactions in
 You can monitor multiple transaction IDs simultaneously, and the filter will trigger when any of them appears on the blockchain.
 The callback provides detailed transaction data for each monitored transaction ID, allowing you to access the full transaction content and metadata.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onTransactionIds.ts" language="typescript" range="15-53" title="Test it yourself: [src/typescript/api-reference/filters/onTransactionIds.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonTransactionIds.ts&startScript=test-api-reference-filters-onTransactionIds)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ## 🏦 Financial Operations
 
@@ -182,15 +118,7 @@ The filter allows you to specify whether to include internal balance changes thr
 You can monitor multiple accounts simultaneously, making it perfect for portfolio tracking, payment processing, or automated financial applications.
 This filter provides the account data in the callback when balance changes occur.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onAccountsBalanceChange.ts" language="typescript" range="16-34" title="Test it yourself: [src/typescript/api-reference/filters/onAccountsBalanceChange.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonAccountsBalanceChange.ts&startScript=test-api-reference-filters-onAccountsBalanceChange)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onExchangeTransfer
 
@@ -202,15 +130,7 @@ This is particularly useful for tracking market movements, analyzing trading pat
 The filter requires no input parameters as it globally monitors all exchange-related transfers, making it ideal for market analysis and trading bot applications.
 It provides detailed transfer data including amounts, sender/receiver information, and memo fields, allowing you to analyze exchange activity patterns.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onExchangeTransfer.ts" language="typescript" range="16-36" title="Test it yourself: [src/typescript/api-reference/filters/onExchangeTransfer.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonExchangeTransfer.ts&startScript=test-api-reference-filters-onExchangeTransfer)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onFeedPriceChange
 
@@ -223,15 +143,7 @@ The filter allows you to set a custom percentage threshold (e.g., 5 for 5% chang
 It's perfect for monitoring market conditions without constantly polling price data.
 The filter is essential for financial applications that need to respond to significant price movements on the Hive blockchain.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onFeedPriceChange.ts" language="typescript" range="14-30" title="Test it yourself: [src/typescript/api-reference/filters/onFeedPriceChange.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonFeedPriceChange.ts&startScript=test-api-reference-filters-onFeedPriceChange)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onFeedPriceNoChange
 
@@ -243,15 +155,7 @@ The filter monitors the price history feed data and checks if the exact same pri
 This is particularly useful for detecting market stagnation, low trading volume periods, or identifying optimal times for certain trading strategies that work best in stable market conditions.
 The filter accepts a parameter specifying the number of hours of required stability, with a default of 24 hours if no parameter is provided.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onFeedPriceNoChange.ts" language="typescript" range="14-30" title="Test it yourself: [src/typescript/api-reference/filters/onFeedPriceNoChange.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonFeedPriceNoChange.ts&startScript=test-api-reference-filters-onFeedPriceNoChange)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onInternalMarketOperation
 
@@ -263,15 +167,7 @@ The internal market allows users to trade between HIVE and HBD (Hive Backed Doll
 This filter is particularly useful for building market analysis tools, arbitrage bots, trading dashboards, or applications that need to track decentralized trading activity.
 The filter requires no input parameters as it globally monitors all internal market operations, providing comprehensive coverage of the built-in DEX activity.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onInternalMarketOperation.ts" language="typescript" range="16-36" title="Test it yourself: [src/typescript/api-reference/filters/onInternalMarketOperation.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonInternalMarketOperation.ts&startScript=test-api-reference-filters-onInternalMarketOperation)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onWhaleAlert
 
@@ -283,15 +179,7 @@ The filter is commonly known as "whale watching" in crypto communities, as it he
 You can specify any asset type and amount threshold using the chain's helper methods like `bot.chain.hiveCoins(1000)`.
 This filter is particularly useful for market analysis, detecting potential market-moving transactions, building trading alerts, or monitoring large account movements for security purposes.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onWhaleAlert.ts" language="typescript" range="16-42" title="Test it yourself: [src/typescript/api-reference/filters/onWhaleAlert.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonWhaleAlert.ts&startScript=test-api-reference-filters-onWhaleAlert)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ## 🔐 Security & Governance
 
@@ -328,15 +216,7 @@ The `onAlarm` filter detects the following five specific alarm types:
 The filter is essential for account security monitoring, governance participation tracking, and detecting potentially compromised or misconfigured accounts.
 You can monitor multiple accounts simultaneously, making it perfect for wallet applications, account management tools, or security monitoring systems.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onAlarm.ts" language="typescript" range="16-39" title="Test it yourself: [src/typescript/api-reference/filters/onAlarm.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonAlarm.ts&startScript=test-api-reference-filters-onAlarm)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onWitnessesMissedBlocks
 
@@ -348,15 +228,7 @@ The filter is essential for network health monitoring, witness performance analy
 It intelligently resets its tracking when a witness successfully produces a block again, preventing duplicate notifications for the same missed block streak.
 You can monitor multiple witnesses simultaneously with different threshold values, making it perfect for witness monitoring dashboards, alerting systems, or blockchain infrastructure monitoring tools.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onWitnessesMissedBlocks.ts" language="typescript" range="16-33" title="Test it yourself: [src/typescript/api-reference/filters/onWitnessesMissedBlocks.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonWitnessesMissedBlocks.ts&startScript=test-api-reference-filters-onWitnessesMissedBlocks)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ## 👥 Social & Content
 
@@ -374,15 +246,7 @@ Remember that you need to collect past operations to access old posts and commen
 
 **Note:** For monitoring top-level posts approaching payout, use [`onPostsIncomingPayout`](#onpostsincomingpayout) instead.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onCommentsIncomingPayout.ts" language="typescript" range="17-36" title="Test it yourself: [src/typescript/api-reference/filters/onCommentsIncomingPayout.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonCommentsIncomingPayout.ts&startScript=test-api-reference-filters-onCommentsIncomingPayout)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onComments
 
@@ -394,15 +258,7 @@ The filter monitors all comment creation activity and provides detailed comment 
 You can monitor multiple authors simultaneously, making it perfect for content moderation tools, engagement tracking systems, discussion monitoring applications, or building comment notification services.
 It's particularly useful for building social media applications, content curation tools, or automated response systems that need to react to new comment activity.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onComments.ts" language="typescript" range="16-36" title="Test it yourself: [src/typescript/api-reference/filters/onComments.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonComments.ts&startScript=test-api-reference-filters-onComments)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onCustomOperation
 
@@ -417,15 +273,7 @@ It's essential for developers building on Hive who need to track their own custo
 
 **Note:** For social interactions like "follow" and "reblog", use the specialized [`onFollow`](#onfollow) and [`onReblog`](#onreblog) filters instead, which provide more targeted functionality and enhanced data.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onCustomOperation.ts" language="typescript" range="16-42" title="Test it yourself: [src/typescript/api-reference/filters/onCustomOperation.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonCustomOperation.ts&startScript=test-api-reference-filters-onCustomOperation)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onFollow
 
@@ -438,15 +286,7 @@ These operations are fundamental to Hive's social layer, allowing users to build
 You can monitor multiple accounts simultaneously, making it perfect for building social analytics tools, relationship tracking dashboards, follower notification systems, or automated social interaction bots.
 It's essential for applications that need to track social dynamics, build recommendation systems, or provide users with insights about their social network activity.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onFollow.ts" language="typescript" range="16-37" title="Test it yourself: [src/typescript/api-reference/filters/onFollow.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonFollow.ts&startScript=test-api-reference-filters-onFollow)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onMention
 
@@ -459,15 +299,7 @@ The filter is essential for building notification systems, social engagement too
 You can monitor multiple accounts simultaneously, making it perfect for community management tools, brand monitoring applications, or personal notification services.
 It's particularly valuable for social media managers, content creators, and businesses who need to stay informed about when their accounts or brands are being discussed in the Hive community.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onMention.ts" language="typescript" range="16-39" title="Test it yourself: [src/typescript/api-reference/filters/onMention.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonMention.ts&startScript=test-api-reference-filters-onMention)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onPostsIncomingPayout
 
@@ -483,15 +315,7 @@ Remember that you need to collect past operations to access old posts and commen
 
 **Note:** For monitoring replies/comments approaching payout, use [`onCommentsIncomingPayout`](#oncommentsincomingpayout) instead.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onPostsIncomingPayout.ts" language="typescript" range="17-36" title="Test it yourself: [src/typescript/api-reference/filters/onPostsIncomingPayout.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonPostsIncomingPayout.ts&startScript=test-api-reference-filters-onPostsIncomingPayout)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onPosts
 
@@ -503,15 +327,7 @@ The filter monitors all post creation activity and provides detailed post data i
 You can monitor multiple authors simultaneously, making it perfect for content aggregation platforms, feed generation systems, blog monitoring applications, or building post notification services.
 It's particularly useful for building social media applications, content curation tools, or automated promotion systems that need to react to new post publications.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onPosts.ts" language="typescript" range="16-38" title="Test it yourself: [src/typescript/api-reference/filters/onPosts.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonPosts.ts&startScript=test-api-reference-filters-onPosts)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onReblog
 
@@ -525,15 +341,7 @@ You can monitor multiple accounts simultaneously, making it perfect for building
 The filter works with both live and past data modes, enabling real-time reblog monitoring and historical analysis of content sharing patterns.
 It's particularly useful for understanding content virality, measuring influence networks, tracking brand mentions through shares, or building recommendation systems based on social sharing behavior.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onReblog.ts" language="typescript" range="16-36" title="Test it yourself: [src/typescript/api-reference/filters/onReblog.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonReblog.ts&startScript=test-api-reference-filters-onReblog)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### onVotes
 
@@ -551,15 +359,7 @@ Key capabilities include:
 
 It's particularly useful for building content curation dashboards, vote tracking systems, community engagement analytics, and voting behavior analysis tools.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/filters/onVotes.ts" language="typescript" range="16-37" title="Test it yourself: [src/typescript/api-reference/filters/onVotes.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Ffilters%2FonVotes.ts&startScript=test-api-reference-filters-onVotes)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ## Providers
 
@@ -584,15 +384,7 @@ The provider automatically fetches current account state data and delivers it al
 You can specify multiple accounts to monitor simultaneously, making it perfect for portfolio tracking, account management applications, or social media dashboards.
 The provider is essential for applications that need detailed user information, wallet interfaces, or account analysis tools.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/providers/provideAccounts.ts" language="typescript" range="16-35" title="Test it yourself: [src/typescript/api-reference/providers/provideAccounts.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fproviders%2FprovideAccounts.ts&startScript=test-api-reference-providers-provideAccounts)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### provideManabarData
 
@@ -604,15 +396,7 @@ The provider supports all three manabar types: upvote, downvote, and resource cr
 Manabar data is crucial for applications that need to manage account resources efficiently or provide users with resource usage insights.
 You can monitor multiple accounts simultaneously, making it perfect for account management tools, automated posting applications, or resource optimization systems.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/providers/provideManabarData.ts" language="typescript" range="17-40" title="Test it yourself: [src/typescript/api-reference/providers/provideManabarData.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fproviders%2FprovideManabarData.ts&startScript=test-api-reference-providers-provideManabarData)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### provideRcAccounts
 
@@ -624,15 +408,7 @@ The provider gives access to advanced RC metrics that are essential for applicat
 Resource credits are fundamental to Hive's bandwidth system, determining how many operations accounts can perform without fees.
 You can monitor multiple accounts simultaneously, making it perfect for account management tools, resource optimization applications, or automated systems that need to track RC usage.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/providers/provideRcAccounts.ts" language="typescript" range="16-38" title="Test it yourself: [src/typescript/api-reference/providers/provideRcAccounts.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fproviders%2FprovideRcAccounts.ts&startScript=test-api-reference-providers-provideRcAccounts)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### provideWitnesses
 
@@ -644,15 +420,7 @@ The provider gives access to witness performance metrics, like missed block coun
 Witnesses are the block producers on the Hive blockchain, and their performance directly affects network security and stability.
 You can monitor multiple witnesses simultaneously, making it perfect for witness monitoring dashboards, network health analysis tools, or voting decision applications.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/providers/provideWitnesses.ts" language="typescript" range="15-35" title="Test it yourself: [src/typescript/api-reference/providers/provideWitnesses.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fproviders%2FprovideWitnesses.ts&startScript=test-api-reference-providers-provideWitnesses)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ## ⚙️ Blockchain Data Providers
 
@@ -666,15 +434,7 @@ The provider combines block header data (block number, timestamp, witness) with 
 Block data is fundamental for applications that need to process all blockchain activity or analyze transaction patterns.
 The provider automatically delivers block information with your filter results, eliminating the need for separate block API calls.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/providers/provideBlockData.ts" language="typescript" range="16-35" title="Test it yourself: [src/typescript/api-reference/providers/provideBlockData.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fproviders%2FprovideBlockData.ts&startScript=test-api-reference-providers-provideBlockData)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ### provideBlockHeaderData
 
@@ -686,15 +446,7 @@ Block header data includes critical blockchain timing information and witness ro
 The provider delivers header information efficiently, making it ideal for high-frequency monitoring applications or resource-constrained environments.
 It automatically integrates with your filters, providing block context alongside event notifications.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/providers/provideBlockHeaderData.ts" language="typescript" range="16-38" title="Test it yourself: [src/typescript/api-reference/providers/provideBlockHeaderData.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fproviders%2FprovideBlockHeaderData.ts&startScript=test-api-reference-providers-provideBlockHeaderData)" :::
-
-+++ Python
-
-TBA
-
-+++
 
 ## 🏦 Financial Data Providers
 
@@ -708,12 +460,4 @@ The provider supplies current median, minimum, and maximum price values along wi
 Price feed data is essential for financial applications, trading bots, conversion calculators, and economic analysis tools.
 The provider delivers real-time price information alongside your filter results, enabling applications to react to both events and current market conditions.
 
-+++ JavaScript
-
 :::code source="../static/snippets/src/typescript/api-reference/providers/provideFeedPriceData.ts" language="typescript" range="16-34" title="Test it yourself: [src/typescript/api-reference/providers/provideFeedPriceData.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fproviders%2FprovideFeedPriceData.ts&startScript=test-api-reference-providers-provideFeedPriceData)" :::
-
-+++ Python
-
-TBA
-
-+++

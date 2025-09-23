@@ -12,8 +12,6 @@ Configure WorkerBee for different environments and use cases.
 
 ### WorkerBee Config Interface
 
-+++ JavaScript
-
 ```typescript
 export interface IStartConfiguration {
   /**
@@ -52,12 +50,6 @@ export interface IStartConfiguration {
 }
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :satellite: API Endpoint Configuration
 
 ### Popular Hive API Endpoints
@@ -76,8 +68,6 @@ WorkerBee with standard filters requires connection to a **consensus node** (ful
 Light API nodes may have limited functionality with WorkerBee filters, particularly those monitoring blockchain infrastructure, account changes, or requiring historical data access.
 !!!
 
-+++ JavaScript
-
 ```typescript:highlight="5-7"
 import { WorkerBee } from "@hiveio/workerbee";
 
@@ -90,12 +80,6 @@ const bot = new WorkerBee({
 
 await bot.start();
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 ### Recommended Consensus Nodes
 
@@ -115,8 +99,6 @@ Choose an endpoint geographically close to your application for better performan
 
 Sometimes you need to adjust the timeout settings based on your network conditions:
 
-+++ JavaScript
-
 ```typescript:highlight="6"
 import { WorkerBee } from "@hiveio/workerbee";
 
@@ -129,12 +111,6 @@ const bot = new WorkerBee({
 
 await bot.start();
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 Setting `apiTimeout` to `0` disables the timeout, which can be useful for long-running requests or low-quality networks.
 

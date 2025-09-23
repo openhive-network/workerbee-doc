@@ -13,8 +13,6 @@ TODO: Enhance examples and make them simpler, integrate with the mentioned platf
 
 A smart voting bot that considers multiple factors before casting votes.
 
-+++ JavaScript
-
 ```typescript
 import { WorkerBee, and } from '@hiveio/workerbee';
 
@@ -157,15 +155,7 @@ const voter = new IntelligentVoter('my-voter-account', {
 voter.start();
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :chart_with_upwards_trend: Telegram Real-Time Analytics Dashboard
-
-+++ JavaScript
 
 Track and analyze blockchain metrics in real-time.
 
@@ -357,17 +347,9 @@ analyzer.on('metrics', (metrics: BlockchainMetrics) => {
 analyzer.start();
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :bell: RSS Advanced Notification System
 
 A comprehensive notification system for multiple channels and conditions.
-
-+++ JavaScript
 
 ```typescript
 import { WorkerBee, or } from '@hiveio/workerbee';
@@ -564,17 +546,9 @@ const notificationSystem = new AdvancedNotificationSystem();
 notificationSystem.start();
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :mag_right: AI-powered Content Quality Analyzer
 
 Analyze and score content quality using various metrics.
-
-+++ JavaScript
 
 ```typescript
 import { WorkerBee } from '@hiveio/workerbee';
@@ -903,17 +877,9 @@ const qualityAnalyzer = new ContentQualityAnalyzer();
 qualityAnalyzer.start();
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :trophy: REST API Achievement System
 
 Gamify user engagement with an achievement system.
-
-+++ JavaScript
 
 ```typescript
 import { WorkerBee } from '@hiveio/workerbee';
@@ -1191,11 +1157,5 @@ setInterval(() => {
   });
 }, 300000); // Every 5 minutes
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 These advanced examples showcase WorkerBee's power for building sophisticated blockchain applications. Each example demonstrates different architectural patterns, real-world use cases, and advanced features of the library.

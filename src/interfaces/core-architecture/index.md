@@ -21,8 +21,6 @@ The **Data Evaluation Context** is WorkerBee's central nervous system. It orches
 
 The DEC automatically resolves dependencies between collectors, ensuring the right data sources are available when needed:
 
-+++ JavaScript
-
 ```typescript
 // When you use both post and account filters
 workerbee.observe
@@ -37,17 +35,9 @@ workerbee.observe
 // - DynamicGlobalPropertiesCollector (dependency of BlockCollector)
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ### :repeat: Smart Caching System
 
 Within each evaluation cycle, the DEC maintains a shared cache that dramatically reduces API calls:
-
-+++ JavaScript
 
 ```typescript
 // These operations share cached blockchain data
@@ -59,12 +49,6 @@ workerbee.observe
 
 // Result: 1 API call instead of 3! 🚀
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 ### :hourglass_flowing_sand: Cycle Management
 
@@ -81,8 +65,6 @@ Filters evaluate blockchain conditions and determine when your observers should 
 
 All filters run concurrently for maximum performance:
 
-+++ JavaScript
-
 ```typescript
 workerbee.observe
   .onPosts("alice")           // Filter 1 (parallel)
@@ -91,17 +73,9 @@ workerbee.observe
   .subscribe(/* ... */);
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ### :fast_forward: Short Circuit Evaluation
 
 When any filter matches, WorkerBee uses short-circuit evaluation to stop unnecessary processing:
-
-+++ JavaScript
 
 ```typescript
 workerbee.observe
@@ -110,12 +84,6 @@ workerbee.observe
   .onVotes("charlie")   // ❌ Cancelled (short circuit)
   .subscribe(/* ... */);
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 ![](../../static/wb-gantt-parallel.png){.rounded-lg}
 
@@ -126,8 +94,6 @@ Providers gather and transform data for your observers, running only when filter
 ### :package: Data Transformation
 
 Providers normalize raw blockchain data into WorkerBee's clean API:
-
-+++ JavaScript
 
 ```typescript
 // Raw blockchain operation data → Clean post objects
@@ -159,17 +125,9 @@ Providers normalize raw blockchain data into WorkerBee's clean API:
 }
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ### :arrows_counterclockwise: Concurrent Processing
 
 Like filters, providers run in parallel:
-
-+++ JavaScript
 
 ```typescript
 workerbee.observe
@@ -180,12 +138,6 @@ workerbee.observe
   .subscribe(/* ... */);
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :shopping_trolley: Collectors Layer
 
 Collectors are the data acquisition layer, responsible for fetching information from various sources.
@@ -193,8 +145,6 @@ Collectors are the data acquisition layer, responsible for fetching information 
 ## :arrows_clockwise: Data Flow Example
 
 Let's trace a complete data flow for this observer:
-
-+++ JavaScript
 
 ```typescript
 workerbee.observe
@@ -207,12 +157,6 @@ workerbee.observe
     }
   });
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 ### Step-by-Step Flow
 
@@ -320,8 +264,6 @@ The `HistoryDataFactory` uses a more limited set optimized for historical analys
 
 The automatic factory switching allows you to seamlessly transition from historical analysis to live monitoring:
 
-+++ JavaScript
-
 ```typescript
 // First, analyze historical data
 bot.providePastOperations(startBlock, endBlock)
@@ -343,9 +285,3 @@ bot.providePastOperations(startBlock, endBlock)
     }
   });
 ```
-
-+++ Python
-
-TBA
-
-+++

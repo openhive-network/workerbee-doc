@@ -11,8 +11,6 @@ Welcome to WorkerBee, the powerful TypeScript library that makes building Hive b
 
 Install WorkerBee:
 
-+++ JavaScript
-
 [!ref icon="../static/npm.svg" target="_blank" text="View **WorkerBee** package on npmjs 🡭"](https://npmjs.com/package/@hiveio/workerbee)
 
 ```bash
@@ -21,17 +19,9 @@ pnpm add @hiveio/workerbee
 
 > You can also use other package managers, such as: [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#using-a-node-version-manager-to-install-nodejs-and-npm) or [`yarn`](https://yarnpkg.com/getting-started/install)
 
-+++ Python
-
-TBA
-
-+++
-
 ## :zap: Quick Start
 
 Here's a simple example that initializes and starts the bot:
-
-+++ JavaScript
 
 ```typescript
 import { WorkerBee } from '@hiveio/workerbee';
@@ -40,12 +30,6 @@ const bot = new WorkerBee();
 
 bot.start();
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 ## :building_construction: Core Concepts
 
@@ -57,8 +41,6 @@ WorkerBee uses the Observer pattern, similar to modern reactive libraries. You d
 
 Build complex queries using method chaining, e.g.:
 
-+++ JavaScript
-
 ```typescript
 bot.observe
   .onPosts("alice")
@@ -66,19 +48,11 @@ bot.observe
   .subscribe({ /* your callback */ });
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ## :bulb: Key Benefits
 
 ### No More Polling Loops
 
 Instead of writing endless `while` loops and managing timers, just declare what you want to observe:
-
-+++ JavaScript
 
 ```typescript
 // ❌ Old way - manual polling
@@ -91,17 +65,9 @@ setInterval(async () => {
 bot.observe.onPosts("author").subscribe({ /* react */ });
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ### Error Handling
 
 WorkerBee handles network errors, API limits, and blockchain reorganizations automatically:
-
-+++ JavaScript
 
 ```typescript:highlight="5-8"
 bot.observe
@@ -115,17 +81,9 @@ bot.observe
   });
 ```
 
-+++ Python
-
-TBA
-
-+++
-
 ### Flexible Data Sources
 
 Switch between live blockchain data and historical analysis without changing your code:
-
-+++ JavaScript
 
 ```typescript:highlight="1"
 bot.providePastData('-7d')
@@ -133,9 +91,3 @@ bot.providePastData('-7d')
   .onComments("bob")
   .subscribe({ /* your callback */ });
 ```
-
-+++ Python
-
-TBA
-
-+++

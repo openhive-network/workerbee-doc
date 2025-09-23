@@ -15,8 +15,6 @@ Providers transform raw blockchain data into structured TypeScript objects, runn
 
 ### Basic Provider Usage
 
-+++ JavaScript
-
 !!!secondary
 Note that the [`?.` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) is used to safely access nested properties, preventing runtime errors if data is not available for any reason, e.g. if the account is not found, or if an API endpoint is temporarily down.
 !!!
@@ -50,12 +48,6 @@ workerbee.observe
     }
   });
 ```
-
-+++ Python
-
-TBA
-
-+++
 
 ## :arrows_counterclockwise: Filters vs. Providers
 
