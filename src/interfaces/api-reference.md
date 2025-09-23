@@ -16,7 +16,7 @@ This document covers all filters & providers, divided into categories, available
 - **🟢 Live Mode Only** - These filters require real-time blockchain data and are only available when using `workerbee.observe`
 - **🔵 Live and Past Data Modes** - These filters work with both live data (`workerbee.observe`) and historical data (`workerbee.providePastOperations()`)
 
-## 👤 Account Management
+## 👤 Tracking Account Activity
 
 ### onAccountsFullManabar
 
