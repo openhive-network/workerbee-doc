@@ -118,3 +118,47 @@ await bot.broadcast(signedTransaction, {
 
 - `verifySignatures`: Checks if transaction signatures and their order/count remain unchanged after blockchain inclusion (detects tampering, not pre-broadcast validation)
 - `expireInMs`: Maximum time to wait for the transaction to appear in a block (usually ~3 seconds). If timeout occurs, the transaction may still appear later in the blockchain, but an error is thrown
+
+### Block Iteration
+
+WorkerBee provides powerful async iterators for processing blockchain data in real-time:
+
+```typescript
+// Simple iteration over new blocks (IGNORES ERRORS)
+for await (const { number, id } of bot) {
+  console.log(`Processing block #${number} with ID: ${id}`);
+}
+
+// Also ignores errors (equivalent to above)
+for await (const block of bot.iterate()) {
+  console.log(`Block: ${block.number}`);
+}
+
+// With error handling via callback
+for await (const block of bot.iterate(console.error)) {
+  console.log(`Block: ${block.number}`);
+}
+
+// With try-catch error handling
+try {
+  for await (const block of bot.iterate(true)) {
+    console.log(`Block: ${block.number}`);
+  }
+} catch (error) {
+  console.error("Iterator error:", error);
+}
+```
+
+**Error Handling Behavior:**
+
+- **`for await (const block of bot)`** - **Ignores all errors** (uses default async iterator)
+- **`bot.iterate()`** (no arguments) - **Ignores all errors**
+- **`bot.iterate(callback)`** - Errors are passed to the callback function
+- **`bot.iterate(true)`** - Errors are thrown and can be caught with try-catch
+
+**Key Features:**
+
+- **Real-time processing**: Automatically waits for new blocks as they arrive
+- **Memory efficient**: Uses promise queues to handle backpressure when processing is slower than block production
+- **Automatic cleanup**: Properly unsubscribes from observers when iteration is interrupted
+- **Flexible error handling**: Support for callbacks, boolean flags, or try-catch patterns
