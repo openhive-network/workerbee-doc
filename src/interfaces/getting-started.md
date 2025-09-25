@@ -93,3 +93,28 @@ bot.providePastData('-7d')
   .onComments("bob")
   .subscribe({ /* your callback */ });
 ```
+
+### Broadcasting Transactions
+
+WorkerBee's `broadcast` method goes beyond regular broadcasting by providing L1 blockchain validation:
+
+```typescript
+// Assuming you have a signed transaction
+await bot.broadcast(signedTransaction);
+
+// With options for verification and timeout
+await bot.broadcast(signedTransaction, {
+  verifySignatures: true,
+  expireInMs: 10000
+});
+```
+
+**Key Difference from Regular Broadcasting:**
+
+- **Regular broadcast**: Only ensures the transaction reaches the node and is valid
+- **WorkerBee broadcast**: Guarantees the transaction was propagated and applied by witnesses in a block by verifying its actual presence in the blockchain
+
+**Options explained:**
+
+- `verifySignatures`: Checks if transaction signatures and their order/count remain unchanged after blockchain inclusion (detects tampering, not pre-broadcast validation)
+- `expireInMs`: Maximum time to wait for the transaction to appear in a block (usually ~3 seconds). If timeout occurs, the transaction may still appear later in the blockchain, but an error is thrown
