@@ -461,3 +461,29 @@ Price feed data is essential for financial applications, trading bots, conversio
 The provider delivers real-time price information alongside your filter results, enabling applications to react to both events and current market conditions.
 
 :::code source="../static/snippets/src/typescript/api-reference/providers/provideFeedPriceData.ts" language="typescript" range="16-34" title="Test it yourself: [src/typescript/api-reference/providers/provideFeedPriceData.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fproviders%2FprovideFeedPriceData.ts&startScript=test-api-reference-providers-provideFeedPriceData)" :::
+
+## 🛠️ Custom Filters & Providers
+
+### filter
+
+**🔵 Live and Past Data Modes** - Custom filters work with both live and historical data.
+
+This powerful method allows you to create custom filters that aren't provided by WorkerBee out of the box. You can create complex conditions using external APIs, database queries, or any custom logic. Custom filters have access to the Data Evaluation Context (DEC), enabling them to use cached data from WorkerBee's collectors for optimal performance.
+
+:::code source="../static/snippets/src/typescript/api-reference/custom/filter.ts" language="typescript" range="20-40" title="Test it yourself: [src/typescript/api-reference/custom/filter.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fcustom%2Ffilter.ts&startScript=test-api-reference-custom-filter)" :::
+
+### provide
+
+**🔵 Live and Past Data Modes** - Custom providers work with both live and historical data.
+
+Create custom data providers to extend WorkerBee's functionality with your own data sources. Custom providers can access the DEC to use cached blockchain data and add their own computed results to the notification data.
+
+:::code source="../static/snippets/src/typescript/api-reference/custom/provide.ts" language="typescript" range="21-45" title="Test it yourself: [src/typescript/api-reference/custom/provide.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fcustom%2Fprovide.ts&startScript=test-api-reference-custom-provide)" :::
+
+### filterPiped
+
+**🔵 Live and Past Data Modes** - Filter piped functionality works with both live and historical data.
+
+This advanced method creates a filter that uses data provided by a custom provider in the same evaluation chain. The provider is guaranteed to run before the filter, enabling complex conditional logic based on external data sources. The piped data becomes part of the final notification data.
+
+:::code source="../static/snippets/src/typescript/api-reference/custom/filterPiped.ts" language="typescript" range="23-49" title="Test it yourself: [src/typescript/api-reference/custom/filterPiped.ts](https://stackblitz.com/github/openhive-network/workerbee-doc-snippets?file=src%2Ftypescript%2Fapi-reference%2Fcustom%2FfilterPiped.ts&startScript=test-api-reference-custom-filterPiped)" :::

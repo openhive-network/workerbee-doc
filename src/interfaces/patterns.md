@@ -357,3 +357,51 @@ bot.observe.onWitnessesMissedBlocks(5, "witness1", "witness2")
     }
   });
 ```
+
+## 🎯 Custom Filter & Provider Patterns
+
+**Use Cases:**
+
+- External API integration
+- Custom business logic
+- Multi-source data correlation
+- Complex conditional triggers
+
+### External API Integration Pattern
+
+Combine blockchain events with external data sources leveraging [`filterPiped`](./api-reference#filterpiped) functionality:
+
+```typescript
+// Custom pattern combining blockchain events with external APIs
+bot.observe
+  .filterPiped(
+    // Provider: Fetch external data
+    async (data) => {
+      const { currentWitness } = await data.get(DynamicGlobalPropertiesClassifier);
+
+      const response = await fetch(`https://api.custom-endpoint.com/witness/${currentWitness}`);
+      const witnessData = await response.json();
+
+      return {
+        witness: currentWitness,
+        isActive: witnessData.active,
+        lastBlock: witnessData.last_block_num,
+        missedBlocks: witnessData.total_missed,
+        externalRating: witnessData.community_rating
+      };
+    },
+    // Filter: Use the external data to make decisions
+    async (witnessData, data) => {
+      // Only trigger if witness is active
+      return witnessData.isActive && witnessData.missedBlocks < 100;
+    }
+  ).subscribe({
+    next: (data) => {
+      console.log(`🎯 High-quality witness active: ${data.witness}`);
+      console.log(`📊 Missed: ${data.missedBlocks}`);
+    },
+    error: (err) => {
+      console.error('External API pattern error:', err);
+    }
+  });
+```

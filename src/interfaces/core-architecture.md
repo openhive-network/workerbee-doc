@@ -209,6 +209,114 @@ workerbee.observe
    Your code receives: { posts: {...}, accounts: {...} }
    ```
 
+## 🛠️ Custom Filters & Providers Architecture
+
+WorkerBee supports custom filters and providers for extending functionality beyond built-in capabilities.
+
+### Custom Filter Architecture
+
+[`Custom filters`](./api-reference#filter) integrate seamlessly with the DEC system:
+
+```typescript
+// Custom filter has full access to cached data
+bot.observe.filter({
+  async match(data: DataEvaluationContext) {
+    // Access cached blockchain data
+    const { currentWitness } = await data.get(DynamicGlobalPropertiesClassifier);
+
+    // Implement custom logic
+    const externalData = await fetch(`/api/witness/${currentWitness}`);
+    const { isReliable } = await externalData.json();
+
+    return isReliable && currentWitness === "my-witness";
+  }
+});
+```
+
+**Architecture Benefits:**
+
+- **DEC Integration**: Full access to cached collectors
+- **Performance**: Reuses existing data rather than re-fetching
+- **Flexibility**: Implement any custom logic
+- **Type Safety**: TypeScript support throughout
+
+### Custom Provider Architecture
+
+[`Custom providers`](./api-reference#provide) follow the same pattern as built-in providers:
+
+```typescript
+bot.observe.provide({
+  async provide(data: DataEvaluationContext) {
+    // Access blockchain data
+    const { currentWitness } = await data.get(DynamicGlobalPropertiesClassifier);
+
+    // Enrich with external data
+    const stats = await this.fetchWitnessStats(currentWitness);
+
+    return {
+      witnessInfo: {
+        name: currentWitness,
+        ...stats
+      }
+    };
+  }
+});
+```
+
+### Store-Based Data Sharing
+
+Use the DEC store to share data between custom components:
+
+```typescript
+import { CollectorClassifierBase } from '@hiveio/workerbee';
+
+// Create custom classifier for shared state
+class MySharedData extends CollectorClassifierBase<{ cache: any }> {}
+
+// Filter stores data
+bot.observe.filter({
+  async match(data: DataEvaluationContext) {
+    const store = data.accessStore(MySharedData);
+    store.cache = { timestamp: Date.now(), computed: true };
+    return true;
+  }
+})
+// Provider accesses stored data
+.provide({
+  async provide(data: DataEvaluationContext) {
+    const store = data.accessStore(MySharedData);
+    return { fromFilter: store.cache };
+  }
+});
+```
+
+### Filter Piped Architecture
+
+If you want to simultaneously use filters and providers accessing the same data via DEC store, it is easier to use filters with piped provider data system.
+
+The [`filterPiped`](./api-reference#filterpiped) method creates a provider-filter chain where the provider runs first:
+
+```typescript
+bot.observe.filterPiped(
+  // Provider function - runs first
+  async (data: DataEvaluationContext) => {
+    const externalData = await fetch('/api/status');
+    return { apiStatus: await externalData.json() };
+  },
+  // Filter function - uses provider data
+  ({ apiStatus }, data: DataEvaluationContext) => {
+    return apiStatus.healthy && apiStatus.load < 0.8;
+  }
+);
+```
+
+**Execution Flow:**
+
+1. **Provider Phase**: Fetches external data
+2. **Filter Phase**: Evaluates condition using provider data
+3. **Data Assembly**: Provider data becomes part of notification
+4. **Notification**: Both blockchain and external data available
+
 ## :chart_with_upwards_trend: Performance Optimizations
 
 ### Caching Strategy
