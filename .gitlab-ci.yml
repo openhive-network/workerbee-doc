@@ -4,10 +4,20 @@ stages:
   - build
   - deploy
 
+include:
+  - template: Workflows/Branch-Pipelines.gitlab-ci.yml
+  - project: 'hive/common-ci-configuration'
+    ref: 37bc739200d61f9c50fe7a4d8728d205bd4c6dbe
+    file:
+      - '/templates/npm_projects.gitlab-ci.yml'
+      - '/templates/github_pages.gitlab-ci.yml'
+
 variables:
   GIT_DEPTH: 0
   GIT_STRATEGY: clone
   GIT_SUBMODULE_STRATEGY: recursive
+  # Reference for GitHub Pages scripts from common-ci-configuration
+  COMMON_CI_GITHUB_PAGES_REF: "37bc739200d61f9c50fe7a4d8728d205bd4c6dbe"
 
 cache:
   key:
@@ -113,16 +123,10 @@ cleanup_preview:
   allow_failure: true
 
 deploy_to_github_pages:
-  stage: deploy
-  image: node:20
+  extends: .deploy_github_pages_simple_template
   variables:
-    GITHUB_REPO: "openhive-network/hive-doc"
+    PROJECT_NAME: "workerbee"
+    DOCS_DIR: "${CI_PROJECT_DIR}/.retype"
   needs:
     - job: build
       artifacts: true
-  script:
-    - ${CI_PROJECT_DIR}/scripts/deploy_github_pages.sh "${CI_COMMIT_REF_SLUG}" "${CI_PROJECT_DIR}/.retype" "manual" "${GITHUB_REPO}" "${GITHUB_PAGES_TOKEN}" "workerbee"
-  rules:
-    - if: '$CI_COMMIT_REF_PROTECTED == "true" && $GITHUB_PAGES_TOKEN'
-  tags:
-    - public-runner-docker
