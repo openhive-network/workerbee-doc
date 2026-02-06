@@ -1,3 +1,6 @@
 [submodule "src/static/snippets"]
 	path = src/static/snippets
 	url = ../workerbee-doc-snippets.git
+[submodule "npm-common-config"]
+	path = npm-common-config
+	url = ../common-ci-configuration
