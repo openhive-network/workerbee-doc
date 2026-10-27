@@ -68,7 +68,7 @@ build:
     - !reference [.pnpm_based_job, before_script]
   script:
     # Replace the base URL in retype.yml with the GitLab Pages URL
-    - sed -i "s#^url: .*#url: ${DOC_URL}#" retype.yml
+    - 'sed -i "s#^url: .*#url: ${DOC_URL}#" retype.yml'
     # Replace the commit hash value to ensure which version of the documentation we are deploying
     - sed -i "s#commithashvalue#${CI_COMMIT_SHORT_SHA}#g" retype.yml
     - pnpm run build
