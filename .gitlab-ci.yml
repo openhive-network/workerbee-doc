@@ -1,5 +1,3 @@
-image: node:20
-
 stages:
   - build
   - deploy
@@ -7,7 +5,7 @@ stages:
 include:
   - template: Workflows/Branch-Pipelines.gitlab-ci.yml
   - project: 'hive/common-ci-configuration'
-    ref: 13581fecea817f76e96644880f4fb7490c315777
+    ref: 279b359fc12da8dfc1021644b898440613f4e1f5
     file:
       - '/templates/npm_projects.gitlab-ci.yml'
       - '/templates/github_pages.gitlab-ci.yml'
@@ -26,6 +24,8 @@ cache:
     - .pnpm-store/
 
 default:
+  # Node and pnpm come from common-ci-configuration (templates/base.gitlab-ci.yml)
+  image: ${NODE_TEST_TOOLS_IMAGE}
   tags:
     - public-runner-docker
 
@@ -45,8 +45,6 @@ default:
     DOC_PATH: "${CACHED_PUBLIC_DIR}/${PREVIEW_URL_PATH}"
     DOC_URL: "${CI_PAGES_URL}/${PREVIEW_URL_PATH}"
   before_script:
-    - corepack enable
-    - corepack prepare pnpm@9.1.1 --activate
     - pnpm config set store-dir .pnpm-store
     - pnpm install
 
@@ -63,9 +61,14 @@ build:
   extends: .pnpm_based_job
   needs:
     - job: lint
+  before_script:
+    # Retype is a .NET program and needs the ICU libraries, which the image does not carry
+    - apt-get update
+    - apt-get install -y --no-install-recommends "$(apt-cache search --names-only '^libicu[0-9]+$' | cut -d' ' -f1 | sort -V | tail -1)"
+    - !reference [.pnpm_based_job, before_script]
   script:
     # Replace the base URL in retype.yml with the GitLab Pages URL
-    - sed -i "s#http://localhost:5005#${DOC_URL}#g" retype.yml
+    - sed -i "s#^url: .*#url: ${DOC_URL}#" retype.yml
     # Replace the commit hash value to ensure which version of the documentation we are deploying
     - sed -i "s#commithashvalue#${CI_COMMIT_SHORT_SHA}#g" retype.yml
     - pnpm run build
