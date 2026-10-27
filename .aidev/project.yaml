@@ -1,0 +1,77 @@
+# Profile for hive/workerbee-doc, written by hand after `aidev project scaffold` (#13561).
+#
+# Schema reference: docs/architecture/project-profile.md
+# Onboarding procedure: the `onboard-external-project` skill.
+# Guide: docs/operations/onboarding-an-external-project.md
+#
+# The generator writes a starting point, not a governed answer: every
+# binding below is the command a maintainer said this project runs, and it
+# is reviewed and edited like any other declaration.
+version: 2
+project: workerbee-doc
+
+gitlab:
+  host: "gitlab.syncad.com"
+  path: "hive/workerbee-doc"
+  id: 537
+
+branches:
+  integration: "aidev/integration"
+  # develop is fast-forward only: hand off by merge request as a linear one-commit-per-change copy.
+  handoff: "develop"
+  handoff_history: "linear"
+
+# How this project's suites execute (#13892): one kind, stated once.
+environment:
+  kind: "container"
+  image: "registry.gitlab.syncad.com/hive/workerbee-doc/aidev-tests@sha256:5142d1f0a3d9689d2b47406b968781b928a0cffed4ba3c746929a7287c03dfdf"
+  inputs: ["pnpm-lock.yaml"]
+
+issues:
+  intake_label: todo
+  taxonomy: ".aidev/labels.yaml"
+  decompose:
+    # `never` is where an external project starts: nothing marks work
+    # approved on this project's behalf until there is a track record.
+    auto_todo: never
+  # Reports about this project's work are filed against this project.
+  watcher_reports: self
+
+# Verification slots. Each binding is what this project genuinely runs for
+# that slot — never one selection repeated under seven names, which makes
+# seven gates report on the same evidence while claiming to check seven
+# different things. This repository is a documentation site with no tests
+# of its own, so the slots run its CI checks (lint, snippet includes, the
+# Retype build) and several carry the same steps; see .aidev/README.md.
+verification:
+  quick:
+    adapter: command
+    args: [".aidev/run-checks.sh", "quick", "lint", "snippets", "build"]
+    artifacts: ["test-results/quick/"]
+  full:
+    adapter: command
+    args: [".aidev/run-checks.sh", "full", "lint", "snippets", "build"]
+    artifacts: ["test-results/full/"]
+  baseline:
+    adapter: command
+    args: [".aidev/run-checks.sh", "baseline", "build"]
+    artifacts: ["test-results/baseline/"]
+  canary:
+    adapter: command
+    args: [".aidev/run-checks.sh", "canary", "lint", "snippets", "build"]
+    artifacts: ["test-results/canary/"]
+  static:
+    adapter: command
+    args: [".aidev/run-checks.sh", "static", "lint", "snippets"]
+    artifacts: ["test-results/static/"]
+  coverage:
+    adapter: command
+    args: [".aidev/run-checks.sh", "coverage", "build"]
+    artifacts: ["test-results/coverage/"]
+  system:
+    adapter: command
+    args: [".aidev/run-checks.sh", "system", "build"]
+    artifacts: ["test-results/system/"]
+
+# Capability grants for target-side code. Empty until this project needs one.
+capabilities: []
