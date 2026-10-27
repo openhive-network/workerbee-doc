@@ -10,11 +10,11 @@ Documentation website for **WorkerBee**, a TypeScript API library for Hive block
 
 ## Tech Stack
 
-- **Retype** (v3.11.0) - Static documentation generator
+- **Retype** (v4.6.0) - Static documentation generator
 - **pnpm** (v9.1.1+) - Package manager
 - **markdownlint-cli** - Markdown linting
 - **Husky** - Git hooks (pre-commit linting)
-- **Node.js 20** - CI runtime
+- **Node.js 24** - CI runtime, from common-ci-configuration's `node-test-tools` image (`${NODE_TEST_TOOLS_IMAGE}`)
 
 ## Directory Structure
 
